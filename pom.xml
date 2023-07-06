@@ -18,6 +18,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>rgo-tt-common-rest-api</module>
+        <module>rgo-tt-common-validator</module>
+        <module>rgo-tt-common-utils</module>
+        <module>rgo-tt-common-exceptions</module>
     </modules>
 
     <properties>
@@ -26,6 +30,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- self modules -->
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-exceptions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- self modules -->
         </dependencies>
     </dependencyManagement>
 
