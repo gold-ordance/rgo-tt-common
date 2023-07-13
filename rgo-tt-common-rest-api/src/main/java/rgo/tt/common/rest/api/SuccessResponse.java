@@ -16,4 +16,11 @@ public class SuccessResponse implements Response {
     public Status getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+        return "SuccessResponse{" +
+                "status=" + status +
+                '}';
+    }
 }

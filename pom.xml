@@ -22,6 +22,7 @@
         <module>rgo-tt-common-validator</module>
         <module>rgo-tt-common-utils</module>
         <module>rgo-tt-common-exceptions</module>
+        <module>rgo-tt-common-logging</module>
     </modules>
 
     <properties>
@@ -34,6 +35,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-exceptions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-logging</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- self modules -->
