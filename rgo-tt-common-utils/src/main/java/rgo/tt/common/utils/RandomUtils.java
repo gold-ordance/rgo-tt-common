@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class RandomUtils {
 
+    private static final int MAX_STRING_REPEAT = 32;
+
     private RandomUtils() {
     }
 
@@ -13,8 +15,21 @@ public final class RandomUtils {
         return UUID.randomUUID().toString();
     }
 
-    public static Long randomPositiveLong() {
-        return ThreadLocalRandom.current().nextLong(Long.MAX_VALUE);
+    public static String randomBigString() {
+        int repeat = randomPositiveInt(MAX_STRING_REPEAT);
+        return randomString().repeat(repeat);
+    }
+
+    public static long randomPositiveLong() {
+        return randomPositiveLong(Long.MAX_VALUE);
+    }
+
+    private static long randomPositiveLong(long exclusiveMaxValue) {
+        return ThreadLocalRandom.current().nextLong(exclusiveMaxValue);
+    }
+
+    private static int randomPositiveInt(int exclusiveMaxValue) {
+        return ThreadLocalRandom.current().nextInt(exclusiveMaxValue);
     }
 
     public static <T> T randomElement(List<T> list) {
