@@ -6,9 +6,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class RandomUtils {
 
+    private static final int MAX_SIZE_SHORT_STRING = 8;
     private static final int MAX_STRING_REPEAT = 32;
 
     private RandomUtils() {
+    }
+
+    public static String randomShortString() {
+        return randomString().substring(0, MAX_SIZE_SHORT_STRING);
     }
 
     public static String randomString() {
