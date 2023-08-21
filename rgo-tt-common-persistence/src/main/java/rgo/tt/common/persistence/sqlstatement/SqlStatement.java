@@ -1,4 +1,4 @@
-package rgo.tt.common.persistence.sqlquery;
+package rgo.tt.common.persistence.sqlstatement;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;

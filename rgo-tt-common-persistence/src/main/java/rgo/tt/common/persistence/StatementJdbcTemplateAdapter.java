@@ -1,7 +1,7 @@
 package rgo.tt.common.persistence;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import rgo.tt.common.persistence.sqlquery.SqlStatement;
+import rgo.tt.common.persistence.sqlstatement.SqlStatement;
 
 import java.util.List;
 
