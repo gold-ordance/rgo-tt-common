@@ -23,6 +23,7 @@
         <module>rgo-tt-common-utils</module>
         <module>rgo-tt-common-exceptions</module>
         <module>rgo-tt-common-logging</module>
+        <module>rgo-tt-common-persistence</module>
     </modules>
 
     <properties>
