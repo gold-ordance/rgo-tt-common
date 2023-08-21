@@ -5,11 +5,11 @@ import rgo.tt.common.persistence.sqlquery.SqlStatement;
 
 import java.util.List;
 
-public class StatementJdbcTemplateDecorator {
+public class StatementJdbcTemplateAdapter {
 
     private final NamedParameterJdbcTemplate jdbc;
 
-    public StatementJdbcTemplateDecorator(NamedParameterJdbcTemplate jdbc) {
+    public StatementJdbcTemplateAdapter(NamedParameterJdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
