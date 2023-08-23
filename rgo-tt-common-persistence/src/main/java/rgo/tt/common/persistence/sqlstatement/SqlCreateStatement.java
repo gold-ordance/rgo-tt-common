@@ -2,9 +2,9 @@ package rgo.tt.common.persistence.sqlstatement;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import rgo.tt.common.persistence.function.FetchEntityById;
 
 import java.util.Objects;
-import java.util.function.LongFunction;
 
 public final class SqlCreateStatement<T> {
 
@@ -18,20 +18,20 @@ public final class SqlCreateStatement<T> {
 
     private final SqlRequest request;
     private final SqlKeyHolder keyHolder;
-    private final LongFunction<T> fetchEntity;
+    private final FetchEntityById<T> function;
 
-    private SqlCreateStatement(SqlRequest request, LongFunction<T> fetchEntity, SqlKeyHolder keyHolder) {
+    private SqlCreateStatement(SqlRequest request, FetchEntityById<T> function, SqlKeyHolder keyHolder) {
         this.request = request;
-        this.fetchEntity = fetchEntity;
+        this.function = function;
         this.keyHolder = keyHolder;
     }
 
-    public static <T> SqlCreateStatement<T> from(SqlRequest request, LongFunction<T> fetchEntity) {
-        return new SqlCreateStatement<>(request, fetchEntity, DEFAULT_KEY);
+    public static <T> SqlCreateStatement<T> from(SqlRequest request, FetchEntityById<T> function) {
+        return new SqlCreateStatement<>(request, function, DEFAULT_KEY);
     }
 
-    public static <T> SqlCreateStatement<T> from(SqlRequest request, LongFunction<T> fetchEntity, SqlKeyHolder keyHolder) {
-        return new SqlCreateStatement<>(request, fetchEntity, keyHolder);
+    public static <T> SqlCreateStatement<T> from(SqlRequest request, FetchEntityById<T> function, SqlKeyHolder keyHolder) {
+        return new SqlCreateStatement<>(request, function, keyHolder);
     }
 
     public SqlRequest getRequest() {
@@ -42,8 +42,8 @@ public final class SqlCreateStatement<T> {
         return keyHolder;
     }
 
-    public LongFunction<T> getFetchEntity() {
-        return fetchEntity;
+    public FetchEntityById<T> getFetchEntity() {
+        return function;
     }
 
     @Override

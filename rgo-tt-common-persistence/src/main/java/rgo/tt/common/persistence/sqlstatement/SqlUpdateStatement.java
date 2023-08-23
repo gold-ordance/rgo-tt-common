@@ -1,28 +1,29 @@
 package rgo.tt.common.persistence.sqlstatement;
 
+import rgo.tt.common.persistence.function.FetchEntity;
+
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public final class SqlUpdateStatement<T> {
 
     private final SqlRequest request;
-    private final Supplier<T> fetchEntity;
+    private final FetchEntity<T> function;
 
-    private SqlUpdateStatement(SqlRequest request, Supplier<T> fetchEntity) {
+    private SqlUpdateStatement(SqlRequest request, FetchEntity<T> function) {
         this.request = request;
-        this.fetchEntity = fetchEntity;
+        this.function = function;
     }
 
-    public static <T> SqlUpdateStatement<T> from(SqlRequest request, Supplier<T> fetchEntity) {
-        return new SqlUpdateStatement<>(request, fetchEntity);
+    public static <T> SqlUpdateStatement<T> from(SqlRequest request, FetchEntity<T> function) {
+        return new SqlUpdateStatement<>(request, function);
     }
 
     public SqlRequest getRequest() {
         return request;
     }
 
-    public Supplier<T> getFetchEntity() {
-        return fetchEntity;
+    public FetchEntity<T> getFetchEntity() {
+        return function;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package rgo.tt.common.persistence;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import rgo.tt.common.persistence.function.FetchEntity;
+import rgo.tt.common.persistence.function.FetchEntityById;
 import rgo.tt.common.persistence.sqlresult.SqlCreateResult;
 import rgo.tt.common.persistence.sqlresult.SqlDeleteResult;
 import rgo.tt.common.persistence.sqlresult.SqlReadResult;
@@ -8,13 +10,11 @@ import rgo.tt.common.persistence.sqlresult.SqlUpdateResult;
 import rgo.tt.common.persistence.sqlstatement.SqlCreateStatement;
 import rgo.tt.common.persistence.sqlstatement.SqlDeleteStatement;
 import rgo.tt.common.persistence.sqlstatement.SqlKeyHolder;
-import rgo.tt.common.persistence.sqlstatement.SqlRequest;
 import rgo.tt.common.persistence.sqlstatement.SqlReadStatement;
+import rgo.tt.common.persistence.sqlstatement.SqlRequest;
 import rgo.tt.common.persistence.sqlstatement.SqlUpdateStatement;
 
 import java.util.List;
-import java.util.function.LongFunction;
-import java.util.function.Supplier;
 
 import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateSaveResult;
 import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateUpdateResult;
@@ -48,8 +48,8 @@ public class StatementJdbcTemplateAdapter {
         int result = jdbc.update(request.getQuery(), request.getParams(), holder.getKeyHolder(), holder.getKeys());
         Number key = statement.getKeyHolder().getKey();
         validateSaveResult(result, key);
-        LongFunction<T> fetchEntity = statement.getFetchEntity();
-        return fetchEntity.apply(key.longValue());
+        FetchEntityById<T> function = statement.getFetchEntity();
+        return function.fetch(key.longValue());
     }
 
     public <T> SqlUpdateResult<T> update(SqlUpdateStatement<T> statement) {
@@ -61,8 +61,8 @@ public class StatementJdbcTemplateAdapter {
         SqlRequest request = statement.getRequest();
         int result = jdbc.update(request.getQuery(), request.getParams());
         validateUpdateResult(result);
-        Supplier<T> fetchEntity = statement.getFetchEntity();
-        return fetchEntity.get();
+        FetchEntity<T> function = statement.getFetchEntity();
+        return function.fetch();
     }
 
     public SqlDeleteResult delete(SqlDeleteStatement statement) {
