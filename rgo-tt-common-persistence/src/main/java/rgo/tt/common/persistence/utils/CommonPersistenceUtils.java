@@ -2,6 +2,7 @@ package rgo.tt.common.persistence.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import rgo.tt.common.exceptions.InvalidEntityException;
 import rgo.tt.common.exceptions.PersistenceException;
 
 import java.util.List;
@@ -25,5 +26,17 @@ public final class CommonPersistenceUtils {
         }
 
         return Optional.of(list.get(0));
+    }
+
+    public static void validateSaveResult(int result, Number key) {
+        if (result != 1 || key == null) {
+            throw new PersistenceException("The entity save error.");
+        }
+    }
+
+    public static void validateUpdateResult(int result) {
+        if (result == 0) {
+            throw new InvalidEntityException("The entityId not found in the storage.");
+        }
     }
 }

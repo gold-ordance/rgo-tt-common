@@ -1,12 +1,23 @@
 package rgo.tt.common.persistence;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import rgo.tt.common.persistence.sqlresult.SqlCreateResult;
+import rgo.tt.common.persistence.sqlresult.SqlDeleteResult;
+import rgo.tt.common.persistence.sqlresult.SqlReadResult;
+import rgo.tt.common.persistence.sqlresult.SqlUpdateResult;
+import rgo.tt.common.persistence.sqlstatement.SqlCreateStatement;
+import rgo.tt.common.persistence.sqlstatement.SqlDeleteStatement;
 import rgo.tt.common.persistence.sqlstatement.SqlKeyHolder;
 import rgo.tt.common.persistence.sqlstatement.SqlRequest;
 import rgo.tt.common.persistence.sqlstatement.SqlReadStatement;
-import rgo.tt.common.persistence.sqlstatement.SqlWriteStatement;
+import rgo.tt.common.persistence.sqlstatement.SqlUpdateStatement;
 
 import java.util.List;
+import java.util.function.LongFunction;
+import java.util.function.Supplier;
+
+import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateSaveResult;
+import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateUpdateResult;
 
 public class StatementJdbcTemplateAdapter {
 
@@ -16,24 +27,52 @@ public class StatementJdbcTemplateAdapter {
         this.jdbc = jdbc;
     }
 
-    public <T> List<T> query(SqlReadStatement<T> statement) {
+    public <T> SqlReadResult<T> read(SqlReadStatement<T> statement) {
+        List<T> entities = execute(statement);
+        return SqlReadResult.from(entities);
+    }
+
+    private <T> List<T> execute(SqlReadStatement<T> statement) {
         SqlRequest request = statement.getRequest();
         return jdbc.query(request.getQuery(), request.getParams(), statement.getMapper());
     }
 
-    public int save(SqlWriteStatement statement) {
-        SqlRequest request = statement.getRequest();
-        SqlKeyHolder holder = statement.getKeyHolder();
-
-        return jdbc.update(
-                request.getQuery(),
-                request.getParams(),
-                holder.getKeyHolder(),
-                holder.getKeys());
+    public <T> SqlCreateResult<T> save(SqlCreateStatement<T> statement) {
+        T entity = execute(statement);
+        return SqlCreateResult.from(entity);
     }
 
-    public int update(SqlWriteStatement statement) {
+    private <T> T execute(SqlCreateStatement<T> statement) {
         SqlRequest request = statement.getRequest();
-        return jdbc.update(request.getQuery(), request.getParams());
+        SqlKeyHolder holder = statement.getKeyHolder();
+        int result = jdbc.update(request.getQuery(), request.getParams(), holder.getKeyHolder(), holder.getKeys());
+        Number key = statement.getKeyHolder().getKey();
+        validateSaveResult(result, key);
+        LongFunction<T> fetchEntity = statement.getFetchEntity();
+        return fetchEntity.apply(key.longValue());
+    }
+
+    public <T> SqlUpdateResult<T> update(SqlUpdateStatement<T> statement) {
+        T entity = execute(statement);
+        return SqlUpdateResult.from(entity);
+    }
+
+    private <T> T execute(SqlUpdateStatement<T> statement) {
+        SqlRequest request = statement.getRequest();
+        int result = jdbc.update(request.getQuery(), request.getParams());
+        validateUpdateResult(result);
+        Supplier<T> fetchEntity = statement.getFetchEntity();
+        return fetchEntity.get();
+    }
+
+    public SqlDeleteResult delete(SqlDeleteStatement statement) {
+        boolean isDeleted = execute(statement);
+        return SqlDeleteResult.from(isDeleted);
+    }
+
+    private boolean execute(SqlDeleteStatement statement) {
+        SqlRequest request = statement.getRequest();
+        int result = jdbc.update(request.getQuery(), request.getParams());
+        return result == 1;
     }
 }
