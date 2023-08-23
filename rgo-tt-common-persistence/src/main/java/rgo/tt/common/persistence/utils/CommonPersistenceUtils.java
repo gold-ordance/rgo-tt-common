@@ -15,17 +15,17 @@ public final class CommonPersistenceUtils {
     private CommonPersistenceUtils() {
     }
 
-    public static <T> Optional<T> getFirstElement(List<T> list) {
-        if (list.isEmpty()) {
+    public static <T> Optional<T> getFirstEntity(List<T> entities) {
+        if (entities.isEmpty()) {
             LOGGER.info("The entity not found.");
             return Optional.empty();
         }
 
-        if (list.size() > 1) {
+        if (entities.size() > 1) {
             throw new PersistenceException("The number of entities is not equal to 1.");
         }
 
-        return Optional.of(list.get(0));
+        return Optional.of(entities.get(0));
     }
 
     public static void validateSaveResult(int result, Number key) {
