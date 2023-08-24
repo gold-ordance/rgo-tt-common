@@ -2,8 +2,8 @@ package rgo.tt.common.rest.api;
 
 import java.util.Objects;
 
-import static rgo.tt.common.rest.api.StatusCode.checkErrorCode;
-import static rgo.tt.common.rest.api.StatusCode.checkSuccessCode;
+import static rgo.tt.common.rest.api.StatusCode.validateErrorCode;
+import static rgo.tt.common.rest.api.StatusCode.validateSuccessCode;
 
 public class Status {
 
@@ -16,12 +16,12 @@ public class Status {
     }
 
     public static Status success(StatusCode code) {
-        checkSuccessCode(code.getHttpCode());
+        validateSuccessCode(code.getHttpCode());
         return new Status(code, null);
     }
 
     public static Status error(StatusCode code, String message) {
-        checkErrorCode(code.getHttpCode());
+        validateErrorCode(code.getHttpCode());
         return new Status(code, message);
     }
 
@@ -38,7 +38,8 @@ public class Status {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Status status = (Status) o;
-        return code == status.code && Objects.equals(message, status.message);
+        return code == status.code
+                && Objects.equals(message, status.message);
     }
 
     @Override
