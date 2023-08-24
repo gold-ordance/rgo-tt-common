@@ -5,18 +5,18 @@ public final class ValidatorUtils {
     private ValidatorUtils() {
     }
 
-    public static void checkString(String s, String field) {
-        if (s == null) errorNull(field);
-        if (s.isBlank()) error("The " + field + " is empty.");
+    public static void validateString(String value, String fieldName) {
+        if (value == null) errorNull(fieldName);
+        if (value.isBlank()) error("The " + fieldName + " is empty.");
     }
 
-    public static void checkObjectId(Long id, String field) {
-        if (id == null) errorNull(field);
-        if (id < 0) error("The " + field + " is negative.");
+    public static void validateObjectId(Long value, String fieldName) {
+        if (value == null) errorNull(fieldName);
+        if (value < 0) error("The " + fieldName + " is negative.");
     }
 
-    private static void errorNull(String field) {
-        error("The " + field + " is null.");
+    private static void errorNull(String fieldName) {
+        error("The " + fieldName + " is null.");
     }
 
     private static void error(String errorMessage) {
