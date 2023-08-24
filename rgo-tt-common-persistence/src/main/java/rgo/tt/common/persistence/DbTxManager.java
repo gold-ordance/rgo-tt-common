@@ -2,6 +2,7 @@ package rgo.tt.common.persistence;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.AbstractDataSource;
 import org.springframework.jdbc.datasource.SmartDataSource;
@@ -22,12 +23,18 @@ public class DbTxManager extends AbstractDataSource implements SmartDataSource {
 
     public DbTxManager(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.jdbc = new StatementJdbcTemplateAdapter(new NamedParameterJdbcTemplate(this));
+        this.jdbc = new StatementJdbcTemplateAdapter(new NamedParameterJdbcTemplate(nativeJdbc()));
     }
 
     private static BaseException exception(Exception e) {
         if (e instanceof BaseException) return (BaseException) e;
         return new BaseException("Tx failed.", e);
+    }
+
+    private JdbcTemplate nativeJdbc() {
+        JdbcTemplate nativeJdbc = new JdbcTemplate(this);
+        nativeJdbc.setExceptionTranslator(new PostgresH2ExceptionTranslator());
+        return nativeJdbc;
     }
 
     public StatementJdbcTemplateAdapter jdbc() {
