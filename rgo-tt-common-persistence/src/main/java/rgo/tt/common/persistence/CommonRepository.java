@@ -9,11 +9,11 @@ public interface CommonRepository<T> {
     Optional<T> findByEntityId(Long entityId);
 
     default T getEntityById(Long entityId) {
-        Optional<T> opt = findByEntityId(entityId);
-        if (opt.isEmpty()) {
+        Optional<T> entity = findByEntityId(entityId);
+        if (entity.isEmpty()) {
             throw new PersistenceException("The entity not found. entityId=" + entityId);
         }
 
-        return opt.get();
+        return entity.get();
     }
 }
