@@ -18,26 +18,26 @@ public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTrans
     private static final String SUFFIX_ID = "_id";
 
     @Override
-    protected DataAccessException doTranslate(String task, String sql, SQLException e) {
-        handleForeignKeyViolation(e);
-        return super.doTranslate(task, sql, e);
+    protected DataAccessException doTranslate(String task, String sql, SQLException exception) {
+        handleForeignKeyViolation(exception);
+        return super.doTranslate(task, sql, exception);
     }
 
-    private void handleForeignKeyViolation(SQLException e) {
-        if (isForeignKeyViolates(e)) {
-            String idName = getIdName(e);
-            throw new InvalidEntityException("The " + idName + " not found in the storage.");
+    private void handleForeignKeyViolation(SQLException exception) {
+        if (isForeignKeyViolates(exception)) {
+            String foreignKeyName = getForeignKeyName(exception);
+            throw new InvalidEntityException("The " + foreignKeyName + " not found in the storage.");
         }
     }
 
-    private boolean isForeignKeyViolates(SQLException ex) {
-        return FOREIGN_KEY_CODES.contains(ex.getSQLState());
+    private boolean isForeignKeyViolates(SQLException exception) {
+        return FOREIGN_KEY_CODES.contains(exception.getSQLState());
     }
 
-    private String getIdName(SQLException e) {
-        String regex = "(?i)(\\w+" + SUFFIX_ID + ")";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(e.getMessage());
+    private String getForeignKeyName(SQLException exception) {
+        String foreignKeyRegex = "(?i)(\\w+" + SUFFIX_ID + ")";
+        Pattern pattern = Pattern.compile(foreignKeyRegex);
+        Matcher matcher = pattern.matcher(exception.getMessage());
         return extractForeignKeyName(matcher);
     }
 
