@@ -27,6 +27,13 @@
         </dependency>
         <!-- spring -->
 
+        <!-- db -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+        <!-- db -->
+
         <!-- others -->
         <dependency>
             <groupId>org.slf4j</groupId>

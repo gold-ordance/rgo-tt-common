@@ -1,10 +1,14 @@
 package rgo.tt.common.persistence.utils;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rgo.tt.common.exceptions.InvalidEntityException;
 import rgo.tt.common.exceptions.PersistenceException;
+import rgo.tt.common.persistence.DbProperties;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +17,17 @@ public final class CommonPersistenceUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonPersistenceUtils.class);
 
     private CommonPersistenceUtils() {
+    }
+
+    public static DataSource hikariSource(DbProperties dbProp) {
+        HikariConfig hk = new HikariConfig();
+        hk.setJdbcUrl(dbProp.getUrl());
+        hk.setSchema(dbProp.getSchema());
+        hk.setUsername(dbProp.getUsername());
+        hk.setPassword(dbProp.getPassword());
+        hk.setMaximumPoolSize(dbProp.getMaxPoolSize());
+        hk.setAutoCommit(false);
+        return new HikariDataSource(hk);
     }
 
     public static <T> Optional<T> getFirstEntity(List<T> entities) {
