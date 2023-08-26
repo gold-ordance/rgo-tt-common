@@ -1,7 +1,5 @@
-package rgo.tt.common.persistence;
+package rgo.tt.common.persistence.translator;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import rgo.tt.common.exceptions.BaseException;
 import rgo.tt.common.exceptions.InvalidEntityException;
 
@@ -10,7 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTranslator {
+public class ForeignKeyPostgresH2ExceptionHandler implements PostgresH2ExceptionHandler {
 
     private static final String H2_FK_CODE = "23506";
     private static final String PG_FK_CODE = "23503";
@@ -18,15 +16,9 @@ public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTrans
     private static final String SUFFIX_ID = "_id";
 
     @Override
-    protected DataAccessException doTranslate(String task, String sql, SQLException exception) {
-        handleForeignKeyViolation(exception);
-        return super.doTranslate(task, sql, exception);
-    }
-
-    private void handleForeignKeyViolation(SQLException exception) {
+    public void handle(SQLException exception) {
         if (isForeignKeyViolates(exception)) {
-            String foreignKeyName = getForeignKeyName(exception);
-            throw new InvalidEntityException("The " + foreignKeyName + " not found in the storage.");
+            throwForeignKeyViolationException(exception);
         }
     }
 
@@ -34,11 +26,20 @@ public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTrans
         return FOREIGN_KEY_CODES.contains(exception.getSQLState());
     }
 
+    private void throwForeignKeyViolationException(SQLException exception) {
+        String foreignKeyName = getForeignKeyName(exception);
+        throw new InvalidEntityException("The " + foreignKeyName + " not found in the storage.");
+    }
+
     private String getForeignKeyName(SQLException exception) {
+        Matcher matcher = createForeignKeyMatcher(exception);
+        return extractForeignKeyName(matcher);
+    }
+
+    private static Matcher createForeignKeyMatcher(SQLException exception) {
         String foreignKeyRegex = "(?i)(\\w+" + SUFFIX_ID + ")";
         Pattern pattern = Pattern.compile(foreignKeyRegex);
-        Matcher matcher = pattern.matcher(exception.getMessage());
-        return extractForeignKeyName(matcher);
+        return pattern.matcher(exception.getMessage());
     }
 
     private String extractForeignKeyName(Matcher matcher) {

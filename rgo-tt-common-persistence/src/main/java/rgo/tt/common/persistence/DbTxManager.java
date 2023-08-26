@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.AbstractDataSource;
 import org.springframework.jdbc.datasource.SmartDataSource;
 import rgo.tt.common.exceptions.BaseException;
+import rgo.tt.common.persistence.translator.PostgresH2ExceptionTranslator;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
