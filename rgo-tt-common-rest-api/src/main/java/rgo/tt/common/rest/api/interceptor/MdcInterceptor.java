@@ -1,4 +1,4 @@
-package rgo.tt.common.rest.api.config;
+package rgo.tt.common.rest.api.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import rgo.tt.common.logging.MdcUtils;
