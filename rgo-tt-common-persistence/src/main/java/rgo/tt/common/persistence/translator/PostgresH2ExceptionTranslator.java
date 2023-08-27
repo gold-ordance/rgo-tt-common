@@ -8,8 +8,11 @@ import java.util.List;
 
 public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTranslator {
 
-    private static final List<PostgresH2ExceptionHandler> EXCEPTION_HANDLERS = List.of(
-            new ForeignKeyPostgresH2ExceptionHandler());
+    private final List<PostgresH2ExceptionHandler> exceptionHandlers;
+
+    public PostgresH2ExceptionTranslator(List<PostgresH2ExceptionHandler> handlers) {
+        exceptionHandlers = handlers;
+    }
 
     @Override
     protected DataAccessException doTranslate(String task, String sql, SQLException exception) {
@@ -18,6 +21,6 @@ public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTrans
     }
 
     private void handleException(SQLException exception) {
-        EXCEPTION_HANDLERS.forEach(h -> h.handle(exception));
+        exceptionHandlers.forEach(h -> h.handle(exception));
     }
 }

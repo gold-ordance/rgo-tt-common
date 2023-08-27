@@ -1,5 +1,6 @@
 package rgo.tt.common.persistence;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import rgo.tt.common.persistence.function.FetchEntity;
 import rgo.tt.common.persistence.function.FetchEntityById;
@@ -7,13 +8,11 @@ import rgo.tt.common.persistence.sqlresult.SqlCreateResult;
 import rgo.tt.common.persistence.sqlresult.SqlDeleteResult;
 import rgo.tt.common.persistence.sqlresult.SqlReadResult;
 import rgo.tt.common.persistence.sqlresult.SqlUpdateResult;
-import rgo.tt.common.persistence.sqlstatement.SqlCreateStatement;
-import rgo.tt.common.persistence.sqlstatement.SqlDeleteStatement;
-import rgo.tt.common.persistence.sqlstatement.SqlKeyHolder;
-import rgo.tt.common.persistence.sqlstatement.SqlReadStatement;
-import rgo.tt.common.persistence.sqlstatement.SqlRequest;
-import rgo.tt.common.persistence.sqlstatement.SqlUpdateStatement;
+import rgo.tt.common.persistence.sqlstatement.*;
+import rgo.tt.common.persistence.translator.PostgresH2ExceptionHandler;
+import rgo.tt.common.persistence.translator.PostgresH2ExceptionTranslator;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateSaveResult;
@@ -23,8 +22,19 @@ public class StatementJdbcTemplateAdapter {
 
     private final NamedParameterJdbcTemplate jdbc;
 
-    public StatementJdbcTemplateAdapter(NamedParameterJdbcTemplate jdbc) {
-        this.jdbc = jdbc;
+    public StatementJdbcTemplateAdapter(DataSource dataSource) {
+        this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    public StatementJdbcTemplateAdapter(DataSource dataSource, List<PostgresH2ExceptionHandler> handlers) {
+        JdbcTemplate nativeJdbc = nativeJdbc(dataSource, handlers);
+        this.jdbc = new NamedParameterJdbcTemplate(nativeJdbc);
+    }
+
+    private JdbcTemplate nativeJdbc(DataSource dataSource, List<PostgresH2ExceptionHandler> handlers) {
+        JdbcTemplate nativeJdbc = new JdbcTemplate(dataSource);
+        nativeJdbc.setExceptionTranslator(new PostgresH2ExceptionTranslator(handlers));
+        return nativeJdbc;
     }
 
     public <T> SqlReadResult<T> read(SqlReadStatement<T> statement) {
