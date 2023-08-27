@@ -15,6 +15,10 @@ public class Status {
         this.message = message;
     }
 
+    public static Status success() {
+        return new Status(StatusCode.SUCCESS, null);
+    }
+
     public static Status success(StatusCode code) {
         validateSuccessCode(code.getHttpCode());
         return new Status(code, null);
