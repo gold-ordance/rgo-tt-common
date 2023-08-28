@@ -14,6 +14,16 @@ public final class TestUtils {
     private TestUtils() {
     }
 
+    public static <T> void assertNonNullFields(T object) throws IllegalAccessException {
+        for (Field field : object.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+
+            if (field.get(object) == null) {
+                throw new IllegalStateException("The field={" + field + "} should not be null.");
+            }
+        }
+    }
+
     public static <T> void assertNullFields(T object, List<String> nonEmptyFields) throws IllegalAccessException {
         for (Field field : object.getClass().getDeclaredFields()) {
             if (nonEmptyFields.contains(field.getName()) || Modifier.isStatic(field.getModifiers())) continue;
