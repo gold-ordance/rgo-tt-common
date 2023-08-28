@@ -28,6 +28,7 @@
 
     <properties>
         <java.version>15</java.version>
+        <guava.version>32.1.2-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -43,7 +44,20 @@
                 <artifactId>rgo-tt-common-logging</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- self modules -->
+
+            <!-- others -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!-- others -->
         </dependencies>
     </dependencyManagement>
 
