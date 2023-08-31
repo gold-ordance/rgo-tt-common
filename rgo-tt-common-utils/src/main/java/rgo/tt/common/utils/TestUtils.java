@@ -14,7 +14,15 @@ public final class TestUtils {
     private TestUtils() {
     }
 
-    public static <T> void assertNonNullFields(T object) throws IllegalAccessException {
+    public static <T> void validateNonNullFields(T object) {
+        try {
+            validate(object);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static <T> void validate(T object) throws IllegalAccessException {
         for (Field field : object.getClass().getDeclaredFields()) {
             field.setAccessible(true);
 
@@ -24,9 +32,17 @@ public final class TestUtils {
         }
     }
 
-    public static <T> void assertNullFields(T object, List<String> nonEmptyFields) throws IllegalAccessException {
+    public static <T> void validateNullFieldsExcept(T object, List<String> nonNullFields) {
+        try {
+            validate(object, nonNullFields);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static <T> void validate(T object, List<String> nonEmptyFields) throws IllegalAccessException {
         for (Field field : object.getClass().getDeclaredFields()) {
-            if (nonEmptyFields.contains(field.getName()) || Modifier.isStatic(field.getModifiers())) continue;
+            if (shouldSkipField(nonEmptyFields, field)) continue;
 
             field.setAccessible(true);
 
@@ -34,6 +50,11 @@ public final class TestUtils {
                 throw new IllegalStateException("The field={" + field + "} should be null.");
             }
         }
+    }
+
+    private static boolean shouldSkipField(List<String> nonEmptyFields, Field field) {
+        return nonEmptyFields.contains(field.getName())
+                || Modifier.isStatic(field.getModifiers());
     }
 
     public static <T extends Throwable> void assertThrowsWithMessage(Class<T> expectedType, Executable executable, String errorMessage) {
