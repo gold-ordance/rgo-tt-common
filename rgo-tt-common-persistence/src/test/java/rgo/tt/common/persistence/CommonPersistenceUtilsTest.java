@@ -12,8 +12,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static rgo.tt.common.utils.RandomUtils.randomPositiveLong;
 import static rgo.tt.common.utils.TestUtils.assertThrowsWithMessage;
 
@@ -49,39 +51,41 @@ class CommonPersistenceUtilsTest {
     @Test
     void getFirstEntity() {
         List<Object> listWithOneElement = List.of(new Object());
-        Object value = CommonPersistenceUtils.getFirstEntity(listWithOneElement);
-        assertEquals(1, listWithOneElement.size());
-        assertEquals(value, listWithOneElement.get(0));
+        Optional<Object> opt = CommonPersistenceUtils.getFirstEntity(listWithOneElement);
+
+        assertTrue(opt.isPresent());
+        assertEquals(opt.get(), listWithOneElement.get(0));
     }
 
     @Test
     void validateSaveResult_keyIsNull() {
-        int rowsAffected = 1;
         Number key = null;
-
         assertThrowsWithMessage(
                 PersistenceException.class,
-                () -> CommonPersistenceUtils.validateSaveResult(rowsAffected, key),
+                () -> CommonPersistenceUtils.validateSaveResult(key),
                 "The entity save error.");
     }
 
     @Test
-    void validateSaveResult_rowsAffectedNotEqualTo1() {
-        int rowsAffected = 0;
+    void validateSaveResult_success() {
         Number key = randomPositiveLong();
-
-        assertThrowsWithMessage(
-                PersistenceException.class,
-                () -> CommonPersistenceUtils.validateSaveResult(rowsAffected, key),
-                "The entity save error.");
+        assertDoesNotThrow(
+                () -> CommonPersistenceUtils.validateSaveResult(key));
     }
 
     @Test
-    void validateUpdateResult() {
+    void validateUpdateResult_rowsAffectedEqualTo0() {
         int rowsAffected = 0;
         assertThrowsWithMessage(
                 InvalidEntityException.class,
                 () -> CommonPersistenceUtils.validateUpdateResult(rowsAffected),
                 "The entityId not found in the storage.");
+    }
+
+    @Test
+    void validateUpdateResult_success() {
+        int rowsAffected = 1;
+        assertDoesNotThrow(() ->
+                CommonPersistenceUtils.validateUpdateResult(rowsAffected));
     }
 }

@@ -43,8 +43,8 @@ public final class CommonPersistenceUtils {
         return Optional.of(entities.get(0));
     }
 
-    public static void validateSaveResult(int result, Number key) {
-        if (result != 1 || key == null) {
+    public static void validateSaveResult(Number key) {
+        if (key == null) {
             throw new PersistenceException("The entity save error.");
         }
     }

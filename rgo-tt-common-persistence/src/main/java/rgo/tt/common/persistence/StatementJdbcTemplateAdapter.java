@@ -55,9 +55,9 @@ public class StatementJdbcTemplateAdapter {
     private <T> T execute(SqlCreateStatement<T> statement) {
         SqlRequest request = statement.getRequest();
         SqlKeyHolder holder = statement.getKeyHolder();
-        int result = jdbc.update(request.getQuery(), request.getParams(), holder.getKeyHolder(), holder.getKeys());
+        jdbc.update(request.getQuery(), request.getParams(), holder.getKeyHolder(), holder.getKeys());
         Number key = statement.getKeyHolder().getKey();
-        validateSaveResult(result, key);
+        validateSaveResult(key);
         FetchEntityById<T> function = statement.getFetchEntity();
         return function.fetch(key.longValue());
     }
