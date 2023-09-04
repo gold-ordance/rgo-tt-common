@@ -2,6 +2,8 @@ package rgo.tt.common.utils;
 
 public final class HelperUtils {
 
+    public static final String SPACE = " ";
+
     private static final int FIRST_SYMBOL_INDEX = 0;
 
     private HelperUtils() {
