@@ -4,16 +4,14 @@ public class OperationParameters {
 
     private final Class<?> entity;
     private final String methodName;
-    private final Class<?> expectedException;
 
-    private OperationParameters(Class<?> entity, String methodName, Class<?> expectedException) {
+    private OperationParameters(Class<?> entity, String methodName) {
         this.entity = entity;
         this.methodName = methodName;
-        this.expectedException = expectedException;
     }
 
-    public static OperationParameters from(Class<?> entity, String methodName, Class<?> expectedException) {
-        return new OperationParameters(entity, methodName, expectedException);
+    public static OperationParameters from(Class<?> entity, String methodName) {
+        return new OperationParameters(entity, methodName);
     }
 
     public Class<?> getEntity() {
@@ -22,9 +20,5 @@ public class OperationParameters {
 
     public String getMethodName() {
         return methodName;
-    }
-
-    public Class getExpectedException() {
-        return expectedException;
     }
 }

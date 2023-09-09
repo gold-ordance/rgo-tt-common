@@ -1,16 +1,16 @@
 package rgo.tt.common.persistence.sqlstatement.retry;
 
-import java.util.Objects;
-
 public class SqlRetryParameters {
 
     private int attempts;
+    private Class<?> exception;
 
     public SqlRetryParameters() {
     }
 
-    public SqlRetryParameters(int attempts) {
-        this.attempts = attempts;
+    private SqlRetryParameters(Builder builder) {
+        attempts = builder.attempts;
+        exception = builder.exception;
     }
 
     public int getAttempts() {
@@ -21,23 +21,35 @@ public class SqlRetryParameters {
         this.attempts = attempts;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SqlRetryParameters that = (SqlRetryParameters) o;
-        return attempts == that.attempts;
+    public Class<?> getException() {
+        return exception;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(attempts);
+    public void setException(Class<?> exception) {
+        this.exception = exception;
     }
 
-    @Override
-    public String toString() {
-        return "SqlRetryParameters{" +
-                "attempts=" + attempts +
-                '}';
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+
+        private int attempts;
+        private Class<?> exception;
+
+        public Builder setAttempts(int attempts) {
+            this.attempts = attempts;
+            return this;
+        }
+
+        public Builder setException(Class<?> exception) {
+            this.exception = exception;
+            return this;
+        }
+
+        public SqlRetryParameters build() {
+            return new SqlRetryParameters(this);
+        }
     }
 }

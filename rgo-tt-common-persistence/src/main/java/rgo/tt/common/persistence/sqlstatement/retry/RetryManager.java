@@ -22,7 +22,7 @@ public final class RetryManager {
             try {
                 return function.get();
             } catch (Exception e) {
-                if (e.getClass().isAssignableFrom(parameters.getExpectedException())) {
+                if (e.getClass().isAssignableFrom(params.getException())) {
                     exceptions.add(e);
                     attempts++;
                     continue;

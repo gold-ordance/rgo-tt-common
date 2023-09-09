@@ -17,7 +17,6 @@ class RetryManagerTest {
 
     private RetryManager manager;
     @Mock private RetryPolicyProperties properties;
-    @Mock private OperationParameters parameters;
 
     @BeforeEach
     void setUp() {
@@ -26,36 +25,39 @@ class RetryManagerTest {
 
     @Test
     void execute_attemptsAreExhausted() {
-        int attempts = 3;
-        SqlRetryParameters params = new SqlRetryParameters(attempts);
+        SqlRetryParameters params = new SqlRetryParameters();
+        params.setAttempts(3);
+        params.setException(ExpectedException.class);
+
         RetryableOperation<?> operation = () -> {
             throw new ExpectedException();
         };
 
         when(properties.policy(any())).thenReturn(params);
-        when(parameters.getExpectedException()).thenReturn(ExpectedException.class);
 
-        assertThrows(PersistenceException.class, () -> manager.execute(operation, parameters));
+        assertThrows(PersistenceException.class, () -> manager.execute(operation, any()));
     }
 
     @Test
     void execute_unexpectedException_skipRetry() {
-        int attempts = 3;
-        SqlRetryParameters params = new SqlRetryParameters(attempts);
+        SqlRetryParameters params = new SqlRetryParameters();
+        params.setAttempts(3);
+        params.setException(ExpectedException.class);
+
         RetryableOperation<?> operation = () -> {
             throw new UnexpectedException();
         };
 
         when(properties.policy(any())).thenReturn(params);
-        when(parameters.getExpectedException()).thenReturn(ExpectedException.class);
 
-        assertThrows(UnexpectedException.class, () -> manager.execute(operation, parameters));
+        assertThrows(UnexpectedException.class, () -> manager.execute(operation, any()));
     }
 
     @Test
     void execute_success() {
-        int attempts = 3;
-        SqlRetryParameters params = new SqlRetryParameters(attempts);
+        SqlRetryParameters params = new SqlRetryParameters();
+        params.setAttempts(3);
+
         RetryableOperation<?> operation = () -> String.class;
 
         when(properties.policy(any())).thenReturn(params);
