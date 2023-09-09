@@ -6,6 +6,10 @@ public class PersistenceException extends BaseException {
         super(message);
     }
 
+    public PersistenceException(Throwable cause) {
+        super(cause);
+    }
+
     public PersistenceException(String message, Throwable cause) {
         super(message, cause);
     }

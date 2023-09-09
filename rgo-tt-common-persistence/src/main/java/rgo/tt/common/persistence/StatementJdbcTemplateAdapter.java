@@ -2,9 +2,8 @@ package rgo.tt.common.persistence;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import rgo.tt.common.exceptions.PersistenceException;
-import rgo.tt.common.persistence.function.FetchEntity;
-import rgo.tt.common.persistence.function.FetchEntityById;
+import rgo.tt.common.persistence.sqlstatement.FetchEntity;
+import rgo.tt.common.persistence.sqlstatement.FetchEntityById;
 import rgo.tt.common.persistence.sqlresult.SqlCreateResult;
 import rgo.tt.common.persistence.sqlresult.SqlDeleteResult;
 import rgo.tt.common.persistence.sqlresult.SqlReadResult;
@@ -15,15 +14,11 @@ import rgo.tt.common.persistence.sqlstatement.SqlKeyHolder;
 import rgo.tt.common.persistence.sqlstatement.SqlReadStatement;
 import rgo.tt.common.persistence.sqlstatement.SqlRequest;
 import rgo.tt.common.persistence.sqlstatement.SqlUpdateStatement;
-import rgo.tt.common.persistence.sqlstatement.retry.RetryableSqlCreateStatement;
-import rgo.tt.common.persistence.sqlstatement.retry.SqlRetryParameters;
 import rgo.tt.common.persistence.translator.PostgresH2ExceptionHandler;
 import rgo.tt.common.persistence.translator.PostgresH2ExceptionTranslator;
 
 import javax.sql.DataSource;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateSaveResult;
 import static rgo.tt.common.persistence.utils.CommonPersistenceUtils.validateUpdateResult;
@@ -60,24 +55,6 @@ public class StatementJdbcTemplateAdapter {
     public <T> SqlCreateResult<T> save(SqlCreateStatement<T> statement) {
         T entity = execute(statement);
         return SqlCreateResult.from(entity);
-    }
-
-    public <T> SqlCreateResult<T> save(RetryableSqlCreateStatement<T> retryable) {
-        SqlRetryParameters params = retryable.getParameters();
-        Set<Exception> exceptions = new HashSet<>();
-        int attempts = 0;
-
-        while (attempts != params.getAttempts()) {
-            try {
-                T entity = execute(retryable.getBaseStatement());
-                return SqlCreateResult.from(entity);
-            } catch (Exception e) {
-                exceptions.add(e);
-                attempts++;
-            }
-        }
-
-        throw new PersistenceException("Failed to execute query after " + attempts + " attempts. Reason: " + exceptions);
     }
 
     private <T> T execute(SqlCreateStatement<T> statement) {

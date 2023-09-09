@@ -1,9 +1,8 @@
-package rgo.tt.common.persistence;
+package rgo.tt.common.persistence.utils;
 
 import org.junit.jupiter.api.Test;
 import rgo.tt.common.exceptions.InvalidEntityException;
 import rgo.tt.common.exceptions.PersistenceException;
-import rgo.tt.common.persistence.utils.CommonPersistenceUtils;
 
 import java.util.Collections;
 import java.util.List;

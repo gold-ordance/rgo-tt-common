@@ -1,7 +1,5 @@
 package rgo.tt.common.persistence.sqlstatement;
 
-import rgo.tt.common.persistence.function.FetchEntity;
-
 import java.util.Objects;
 
 public final class SqlUpdateStatement<T> {

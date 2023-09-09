@@ -2,7 +2,6 @@ package rgo.tt.common.persistence.sqlstatement;
 
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import rgo.tt.common.persistence.function.FetchEntityById;
 
 import java.util.Objects;
 

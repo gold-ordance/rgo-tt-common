@@ -1,4 +1,4 @@
-package rgo.tt.common.persistence.function;
+package rgo.tt.common.persistence.sqlstatement;
 
 public interface FetchEntity<T> {
 

@@ -2,7 +2,7 @@ package rgo.tt.common.persistence.sqlstatement.retry;
 
 import java.util.Objects;
 
-public final class SqlRetryParameters {
+public class SqlRetryParameters {
 
     private int attempts;
 
