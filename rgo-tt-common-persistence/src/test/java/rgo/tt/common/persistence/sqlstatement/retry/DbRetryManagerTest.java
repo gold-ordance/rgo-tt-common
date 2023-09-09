@@ -13,14 +13,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RetryManagerTest {
+class DbRetryManagerTest {
 
-    private RetryManager manager;
+    private DbRetryManager manager;
     @Mock private RetryPolicyProperties properties;
 
     @BeforeEach
     void setUp() {
-        manager = new RetryManager(properties);
+        manager = new DbRetryManager(properties);
     }
 
     @Test
@@ -33,7 +33,7 @@ class RetryManagerTest {
             throw new ExpectedException();
         };
 
-        when(properties.policy(any())).thenReturn(params);
+        when(properties.retryParams(any())).thenReturn(params);
 
         assertThrows(PersistenceException.class, () -> manager.execute(operation, any()));
     }
@@ -48,7 +48,7 @@ class RetryManagerTest {
             throw new UnexpectedException();
         };
 
-        when(properties.policy(any())).thenReturn(params);
+        when(properties.retryParams(any())).thenReturn(params);
 
         assertThrows(UnexpectedException.class, () -> manager.execute(operation, any()));
     }
@@ -60,7 +60,7 @@ class RetryManagerTest {
 
         RetryableOperation<?> operation = () -> String.class;
 
-        when(properties.policy(any())).thenReturn(params);
+        when(properties.retryParams(any())).thenReturn(params);
 
         assertDoesNotThrow(() -> manager.execute(operation, any()));
     }

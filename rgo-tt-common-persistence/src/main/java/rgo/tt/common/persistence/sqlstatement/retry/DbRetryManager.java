@@ -5,22 +5,22 @@ import rgo.tt.common.exceptions.PersistenceException;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class RetryManager {
+public final class DbRetryManager {
 
     private final RetryPolicyProperties policy;
 
-    public RetryManager(RetryPolicyProperties policy) {
+    public DbRetryManager(RetryPolicyProperties policy) {
         this.policy = policy;
     }
 
-    public <T> T execute(RetryableOperation<T> function, OperationParameters parameters) {
-        SqlRetryParameters params = policy.policy(parameters);
+    public <T> T execute(RetryableOperation<T> operation, OperationParameters parameters) {
+        SqlRetryParameters params = policy.retryParams(parameters);
         Set<Exception> exceptions = new HashSet<>();
         int attempts = 0;
 
         while (attempts != params.getAttempts()) {
             try {
-                return function.get();
+                return operation.perform();
             } catch (Exception e) {
                 if (e.getClass().isAssignableFrom(params.getException())) {
                     exceptions.add(e);

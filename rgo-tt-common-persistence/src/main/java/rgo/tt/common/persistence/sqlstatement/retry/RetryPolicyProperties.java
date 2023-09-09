@@ -14,7 +14,7 @@ public class RetryPolicyProperties {
         this.entities = entities;
     }
 
-    SqlRetryParameters policy(OperationParameters params) {
+    SqlRetryParameters retryParams(OperationParameters params) {
         String entityName = entityName(params.getEntity());
         Map<String, SqlRetryParameters> methods = entities.get(entityName);
         return methods.get(params.getMethodName());
