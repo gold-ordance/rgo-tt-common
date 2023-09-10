@@ -11,6 +11,17 @@ public class SqlRetryParameters {
     private SqlRetryParameters(Builder builder) {
         attempts = builder.attempts;
         exception = builder.exception;
+        checkValidity();
+    }
+
+    void checkValidity() {
+        if (attempts < 1) {
+            throw new IllegalArgumentException("The number of attempts must be positive. actual=" + attempts);
+        }
+
+        if (exception == null) {
+            throw new IllegalArgumentException("The exception must be not null.");
+        }
     }
 
     public int getAttempts() {

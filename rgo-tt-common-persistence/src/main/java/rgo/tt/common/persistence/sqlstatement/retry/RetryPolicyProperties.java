@@ -30,5 +30,12 @@ public class RetryPolicyProperties {
 
     public void setEntities(Map<String, Map<String, SqlRetryParameters>> entities) {
         this.entities = entities;
+        checkValidity();
+    }
+
+    private void checkValidity() {
+        entities.forEach((entity, methods) ->
+                methods.forEach((method, retryParams) ->
+                        retryParams.checkValidity()));
     }
 }
