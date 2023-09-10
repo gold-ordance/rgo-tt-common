@@ -3,6 +3,7 @@ package rgo.tt.common.persistence.translator;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 
+import javax.annotation.Nonnull;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class PostgresH2ExceptionTranslator extends SQLErrorCodeSQLExceptionTrans
     }
 
     @Override
-    protected DataAccessException doTranslate(String task, String sql, SQLException exception) {
+    protected DataAccessException doTranslate(@Nonnull String task, String sql, @Nonnull SQLException exception) {
         handleException(exception);
         return super.doTranslate(task, sql, exception);
     }

@@ -1,12 +1,14 @@
 package rgo.tt.common.persistence.translator;
 
+import com.google.common.annotations.VisibleForTesting;
 import rgo.tt.common.exceptions.UniqueViolationException;
 
 import java.sql.SQLException;
 
 public class UniqueViolationPostgresH2ExceptionHandler implements PostgresH2ExceptionHandler {
 
-    private static final String UV_CODE = "23505";
+    @VisibleForTesting
+    static final String UV_CODE = "23505";
 
     @Override
     public void handle(SQLException exception) {
@@ -16,6 +18,6 @@ public class UniqueViolationPostgresH2ExceptionHandler implements PostgresH2Exce
     }
 
     private boolean isUniqueViolation(SQLException exception) {
-        return exception.getSQLState().equals(UV_CODE);
+        return UV_CODE.equals(exception.getSQLState());
     }
 }

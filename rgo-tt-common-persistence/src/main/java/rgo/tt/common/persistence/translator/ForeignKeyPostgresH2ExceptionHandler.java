@@ -1,5 +1,6 @@
 package rgo.tt.common.persistence.translator;
 
+import com.google.common.annotations.VisibleForTesting;
 import rgo.tt.common.exceptions.BaseException;
 import rgo.tt.common.exceptions.InvalidEntityException;
 
@@ -10,8 +11,12 @@ import java.util.regex.Pattern;
 
 public class ForeignKeyPostgresH2ExceptionHandler implements PostgresH2ExceptionHandler {
 
-    private static final String H2_FK_CODE = "23506";
-    private static final String PG_FK_CODE = "23503";
+    @VisibleForTesting
+    static final String H2_FK_CODE = "23506";
+
+    @VisibleForTesting
+    static final String PG_FK_CODE = "23503";
+
     private static final List<String> FOREIGN_KEY_CODES = List.of(PG_FK_CODE, H2_FK_CODE);
     private static final String SUFFIX_ID = "_id";
 
