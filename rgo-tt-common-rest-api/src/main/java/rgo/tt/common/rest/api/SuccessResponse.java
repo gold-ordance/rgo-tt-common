@@ -2,9 +2,12 @@ package rgo.tt.common.rest.api;
 
 public class SuccessResponse implements Response {
 
-    private final Status status;
+    private Status status;
 
-    private SuccessResponse(Status status) {
+    public SuccessResponse() {
+    }
+
+    public SuccessResponse(Status status) {
         this.status = status;
     }
 
@@ -15,6 +18,10 @@ public class SuccessResponse implements Response {
     @Override
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

@@ -3,6 +3,11 @@ package rgo.tt.common.rest.api.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.linecorp.armeria.common.HttpData;
+import com.linecorp.armeria.common.HttpResponse;
+import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,7 @@ public final class RestUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestUtils.class);
     private static final ObjectMapper OM = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     private RestUtils() {
@@ -23,6 +29,12 @@ public final class RestUtils {
     public static ResponseEntity<Response> convertToResponseEntity(Response response) {
         logResponse(response);
         return convert(response);
+    }
+
+    public static HttpResponse mapToHttp(Response response) {
+        HttpData content = HttpData.ofUtf8(json(response));
+        int httpCode = response.getStatus().getStatusCode().getHttpCode();
+        return HttpResponse.of(HttpStatus.valueOf(httpCode), MediaType.JSON_UTF_8, content);
     }
 
     private static void logResponse(Response response) {
@@ -36,11 +48,19 @@ public final class RestUtils {
                 .body(response);
     }
 
-    public static String json(Object o) {
+    public static String json(Object object) {
         try {
-            return OM.writeValueAsString(o);
+            return OM.writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to serialize the object: ", e);
+            throw new RuntimeException("Serialization failed. object= " + object, e);
+        }
+    }
+
+    public static <T> T fromJson(String json, Class<T> clazz) {
+        try {
+            return OM.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Deserialization failed. json= " + json, e);
         }
     }
 }

@@ -7,11 +7,14 @@ import static rgo.tt.common.rest.api.StatusCode.validateSuccessCode;
 
 public class Status {
 
-    private final StatusCode code;
-    private final String message;
+    private StatusCode statusCode;
+    private String message;
 
-    private Status(StatusCode code, String message) {
-        this.code = code;
+    public Status() {
+    }
+
+    public Status(StatusCode statusCode, String message) {
+        this.statusCode = statusCode;
         this.message = message;
     }
 
@@ -19,22 +22,30 @@ public class Status {
         return new Status(StatusCode.SUCCESS, null);
     }
 
-    public static Status success(StatusCode code) {
-        validateSuccessCode(code.getHttpCode());
-        return new Status(code, null);
+    public static Status success(StatusCode statusCode) {
+        validateSuccessCode(statusCode.getHttpCode());
+        return new Status(statusCode, null);
     }
 
-    public static Status error(StatusCode code, String message) {
-        validateErrorCode(code.getHttpCode());
-        return new Status(code, message);
+    public static Status error(StatusCode statusCode, String message) {
+        validateErrorCode(statusCode.getHttpCode());
+        return new Status(statusCode, message);
     }
 
     public StatusCode getStatusCode() {
-        return code;
+        return statusCode;
+    }
+
+    public void setStatusCode(StatusCode statusCode) {
+        this.statusCode = statusCode;
     }
 
     public String getMessage() {
         return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
@@ -42,19 +53,19 @@ public class Status {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Status status = (Status) o;
-        return code == status.code
+        return statusCode == status.statusCode
                 && Objects.equals(message, status.message);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, message);
+        return Objects.hash(statusCode, message);
     }
 
     @Override
     public String toString() {
         return "Status{" +
-                "code=" + code +
+                "statusCode=" + statusCode +
                 ", message='" + message + '\'' +
                 '}';
     }

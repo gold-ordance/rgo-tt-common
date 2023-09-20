@@ -28,6 +28,7 @@
 
     <properties>
         <java.version>15</java.version>
+        <armeria.version>1.25.2</armeria.version>
         <guava.version>32.1.2-jre</guava.version>
     </properties>
 
@@ -50,6 +51,14 @@
                 <version>${project.version}</version>
             </dependency>
             <!-- self modules -->
+
+            <!-- armeria -->
+            <dependency>
+                <groupId>com.linecorp.armeria</groupId>
+                <artifactId>armeria</artifactId>
+                <version>${armeria.version}</version>
+            </dependency>
+            <!-- armeria -->
 
             <!-- others -->
             <dependency>

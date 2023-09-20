@@ -2,9 +2,12 @@ package rgo.tt.common.rest.api;
 
 public class ErrorResponse implements Response {
 
-    private final Status status;
+    private Status status;
 
-    private ErrorResponse(Status status) {
+    public ErrorResponse() {
+    }
+
+    public ErrorResponse(Status status) {
         this.status = status;
     }
 
@@ -27,6 +30,10 @@ public class ErrorResponse implements Response {
     @Override
     public Status getStatus() {
         return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
