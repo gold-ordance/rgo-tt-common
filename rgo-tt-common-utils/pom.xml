@@ -13,11 +13,11 @@
     <artifactId>rgo-tt-common-utils</artifactId>
 
     <dependencies>
-        <!-- others -->
+        <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
         </dependency>
-        <!-- others -->
+        <!-- test -->
     </dependencies>
 </project>

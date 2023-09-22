@@ -38,7 +38,7 @@
         </dependency>
         <!-- db -->
 
-        <!-- others -->
+        <!-- utils -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -47,7 +47,7 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-        <!-- others -->
+        <!-- utils -->
 
         <!-- test -->
         <dependency>

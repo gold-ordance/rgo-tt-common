@@ -1,4 +1,4 @@
-package rgo.tt.common.rest.api.utils;
+package rgo.tt.common.rest.api.utils.test;
 
 import com.linecorp.armeria.server.Server;
 import org.slf4j.Logger;
@@ -20,15 +20,17 @@ public final class SimpleArmeriaServer {
 
     public void start() {
         if (server != null) {
-            throw new RuntimeException("Simple server already started on port " + this.port);
+            LOGGER.warn("Simple server already started on port {}.", port);
+            return;
         }
 
-        this.server = Server.builder()
+        server = Server.builder()
                 .http(port)
                 .annotatedService(service)
                 .build();
+
         server.start().join();
-        LOGGER.info("Simple server started on port {}", this.port);
+        LOGGER.info("Simple server started on port {}.", port);
     }
 
     public void stop() {

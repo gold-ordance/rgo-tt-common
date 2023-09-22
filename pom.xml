@@ -60,13 +60,13 @@
             </dependency>
             <!-- armeria -->
 
-            <!-- others -->
+            <!-- utils -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-            <!-- others -->
+            <!-- utils -->
         </dependencies>
     </dependencyManagement>
 
