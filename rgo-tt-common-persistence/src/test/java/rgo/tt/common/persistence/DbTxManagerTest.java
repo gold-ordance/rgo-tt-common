@@ -12,9 +12,7 @@ import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -55,10 +53,10 @@ class DbTxManagerTest {
             });
             fail();
         } catch (Exception e) {
-            assertInstanceOf(ExpectedException.class, e.getCause());
+            assertThat(e.getCause()).isInstanceOf(ExpectedException.class);
         }
 
-        assertNotNull(connection.get());
+        assertThat(connection.get()).isNotNull();
         verify(connection.get(), times(0)).commit();
         verify(connection.get(), times(1)).rollback();
         verify(connection.get(), times(1)).close();
@@ -73,7 +71,7 @@ class DbTxManagerTest {
             return action.get();
         });
 
-        assertSame(outerConnection, innerConnection.get());
+        assertThat(innerConnection.get()).isEqualTo(outerConnection);
         verify(outerConnection, times(1)).commit();
         verify(outerConnection, times(0)).rollback();
         verify(outerConnection, times(1)).close();
@@ -93,10 +91,10 @@ class DbTxManagerTest {
             });
             fail();
         } catch (Exception e) {
-            assertInstanceOf(ExpectedException.class, e.getCause());
+            assertThat(e.getCause()).isInstanceOf(ExpectedException.class);
         }
 
-        assertNotNull(innerConnection.get());
+        assertThat(innerConnection.get()).isNotNull();
         verify(innerConnection.get(), times(0)).commit();
         verify(innerConnection.get(), times(1)).rollback();
         verify(innerConnection.get(), times(1)).close();

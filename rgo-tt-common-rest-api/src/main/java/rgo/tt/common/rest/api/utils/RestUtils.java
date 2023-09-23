@@ -10,15 +10,12 @@ import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import rgo.tt.common.rest.api.ErrorResponse;
 import rgo.tt.common.rest.api.Response;
 
 import static com.linecorp.armeria.common.HttpStatus.isContentAlwaysEmpty;
 
 public final class RestUtils {
-
-    public static final String DIGITS_PATTERN = "[0-9]+";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestUtils.class);
     private static final ObjectMapper OM = new ObjectMapper()
@@ -28,12 +25,9 @@ public final class RestUtils {
     private RestUtils() {
     }
 
-    public static ResponseEntity<Response> convertToResponseEntity(Response response) {
-        logResponse(response);
-        return convert(response);
-    }
-
     public static HttpResponse mapToHttp(Response response) {
+        logResponse(response);
+
         int httpCode = response.getStatus().getStatusCode().getHttpCode();
         if (isContentAlwaysEmpty(httpCode)) {
             return HttpResponse.of(httpCode);
@@ -46,12 +40,6 @@ public final class RestUtils {
     private static void logResponse(Response response) {
         if (response instanceof ErrorResponse) LOGGER.error("Response: {}", response);
         else LOGGER.info("Response: {}", response);
-    }
-
-    private static ResponseEntity<Response> convert(Response response) {
-        return ResponseEntity
-                .status(response.getStatus().getStatusCode().getHttpCode())
-                .body(response);
     }
 
     public static String json(Object object) {

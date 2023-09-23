@@ -8,8 +8,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static rgo.tt.common.utils.TestUtils.assertThrowsWithMessage;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class RandomUtilsTest {
 
@@ -17,7 +17,7 @@ class RandomUtilsTest {
     void randomElement() {
         List<Object> objects = randomList();
         Object element = RandomUtils.randomElement(objects);
-        assertTrue(objects.contains(element));
+        assertThat(element).isIn(objects);
     }
 
     private List<Object> randomList() {
@@ -31,16 +31,15 @@ class RandomUtilsTest {
     @Test
     void randomElement_listIsEmpty() {
         List<Object> objects = Collections.emptyList();
-        assertThrowsWithMessage(
-                IllegalArgumentException.class,
-                () -> RandomUtils.randomElement(objects),
-                "The list is empty.");
+        assertThatThrownBy(() -> RandomUtils.randomElement(objects))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The list is empty.");
     }
 
     @Test
     void randomPositiveLong() {
         long actual = RandomUtils.randomPositiveLong();
-        assertTrue(isPositiveNumber(actual));
+        assertThat(isPositiveNumber(actual)).isTrue();
     }
 
     private static boolean isPositiveNumber(long actual) {

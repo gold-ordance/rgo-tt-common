@@ -11,12 +11,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static rgo.tt.common.utils.RandomUtils.randomPositiveLong;
-import static rgo.tt.common.utils.TestUtils.assertThrowsWithMessage;
 
 class CommonPersistenceUtilsTest {
 
@@ -24,16 +22,15 @@ class CommonPersistenceUtilsTest {
     void getFirstEntity_empty() {
         List<Object> empty = Collections.emptyList();
         Optional<Object> actual = CommonPersistenceUtils.getFirstEntity(empty);
-        assertFalse(actual.isPresent());
+        assertThat(actual).isNotPresent();
     }
 
     @Test
     void getFirstEntity_many() {
         List<Object> many = many();
-        assertThrowsWithMessage(
-                PersistenceException.class,
-                () -> CommonPersistenceUtils.getFirstEntity(many),
-                "The number of entities is not equal to 1.");
+        assertThatThrownBy(() -> CommonPersistenceUtils.getFirstEntity(many))
+                .isInstanceOf(PersistenceException.class)
+                .hasMessage("The number of entities is not equal to 1.");
     }
 
     private List<Object> many() {
@@ -52,39 +49,37 @@ class CommonPersistenceUtilsTest {
         List<Object> listWithOneElement = List.of(new Object());
         Optional<Object> opt = CommonPersistenceUtils.getFirstEntity(listWithOneElement);
 
-        assertTrue(opt.isPresent());
-        assertEquals(opt.get(), listWithOneElement.get(0));
+        assertThat(opt).isPresent();
+        assertThat(opt.get()).isIn(listWithOneElement);
     }
 
     @Test
     void validateSaveResult_keyIsNull() {
         Number key = null;
-        assertThrowsWithMessage(
-                PersistenceException.class,
-                () -> CommonPersistenceUtils.validateSaveResult(key),
-                "The entity save error.");
+        assertThatThrownBy(() -> CommonPersistenceUtils.validateSaveResult(key))
+                .isInstanceOf(PersistenceException.class)
+                .hasMessage("The entity save error.");
     }
 
     @Test
     void validateSaveResult_success() {
         Number key = randomPositiveLong();
-        assertDoesNotThrow(
-                () -> CommonPersistenceUtils.validateSaveResult(key));
+        assertThatCode(() -> CommonPersistenceUtils.validateSaveResult(key))
+                .doesNotThrowAnyException();
     }
 
     @Test
     void validateUpdateResult_rowsAffectedEqualTo0() {
         int rowsAffected = 0;
-        assertThrowsWithMessage(
-                InvalidEntityException.class,
-                () -> CommonPersistenceUtils.validateUpdateResult(rowsAffected),
-                "The entityId not found in the storage.");
+        assertThatThrownBy(() -> CommonPersistenceUtils.validateUpdateResult(rowsAffected))
+                .isInstanceOf(InvalidEntityException.class)
+                .hasMessage("The entityId not found in the storage.");
     }
 
     @Test
     void validateUpdateResult_success() {
         int rowsAffected = 1;
-        assertDoesNotThrow(() ->
-                CommonPersistenceUtils.validateUpdateResult(rowsAffected));
+        assertThatCode(() -> CommonPersistenceUtils.validateUpdateResult(rowsAffected))
+                .doesNotThrowAnyException();
     }
 }

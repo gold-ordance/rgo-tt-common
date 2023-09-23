@@ -4,8 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MdcUtilsTest {
 
@@ -23,7 +22,7 @@ class MdcUtilsTest {
 
     private void nonNull(String parameter) {
         String value = MDC.get(parameter);
-        assertNotNull(value);
+        assertThat(value).isNotNull();
     }
 
     @Test
@@ -36,6 +35,6 @@ class MdcUtilsTest {
 
     private void checkIsNull(String parameter) {
         String value = MDC.get(parameter);
-        assertNull(value);
+        assertThat(value).isNull();
     }
 }

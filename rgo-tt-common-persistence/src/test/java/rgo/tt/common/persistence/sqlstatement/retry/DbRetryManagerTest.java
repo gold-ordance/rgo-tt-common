@@ -7,8 +7,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import rgo.tt.common.exceptions.PersistenceException;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +35,8 @@ class DbRetryManagerTest {
 
         when(properties.retryParams(any())).thenReturn(params);
 
-        assertThrows(PersistenceException.class, () -> manager.execute(operation, any()));
+        assertThatThrownBy(() -> manager.execute(operation, any()))
+                .isInstanceOf(PersistenceException.class);
     }
 
     @Test
@@ -50,7 +51,8 @@ class DbRetryManagerTest {
 
         when(properties.retryParams(any())).thenReturn(params);
 
-        assertThrows(UnexpectedException.class, () -> manager.execute(operation, any()));
+        assertThatThrownBy(() -> manager.execute(operation, any()))
+                .isInstanceOf(UnexpectedException.class);
     }
 
     @Test
@@ -62,7 +64,8 @@ class DbRetryManagerTest {
 
         when(properties.retryParams(any())).thenReturn(params);
 
-        assertDoesNotThrow(() -> manager.execute(operation, any()));
+        assertThatCode(() -> manager.execute(operation, any()))
+                .doesNotThrowAnyException();
     }
 
     private static class ExpectedException extends RuntimeException {

@@ -2,10 +2,10 @@ package rgo.tt.common.validator;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static rgo.tt.common.utils.RandomUtils.randomPositiveLong;
 import static rgo.tt.common.utils.RandomUtils.randomString;
-import static rgo.tt.common.utils.TestUtils.assertThrowsWithMessage;
 
 class ValidatorUtilsTest {
 
@@ -14,50 +14,46 @@ class ValidatorUtilsTest {
     @Test
     void validateString_isNull() {
         String value = null;
-        assertThrowsWithMessage(
-                ValidateException.class,
-                () -> ValidatorUtils.validateString(value, FIELD_NAME),
-                "The " + FIELD_NAME + " is null.");
+        assertThatThrownBy(() -> ValidatorUtils.validateString(value, FIELD_NAME))
+                .isInstanceOf(ValidateException.class)
+                .hasMessage("The " + FIELD_NAME + " is null.");
     }
 
     @Test
     void validateString_isEmpty() {
         String value = "";
-        assertThrowsWithMessage(
-                ValidateException.class,
-                () -> ValidatorUtils.validateString(value, FIELD_NAME),
-                "The " + FIELD_NAME + " is empty.");
+        assertThatThrownBy(() -> ValidatorUtils.validateString(value, FIELD_NAME))
+                .isInstanceOf(ValidateException.class)
+                .hasMessage("The " + FIELD_NAME + " is empty.");
     }
 
     @Test
     void validateString_success() {
         String value = randomString();
-        assertDoesNotThrow(() ->
-                ValidatorUtils.validateString(value, FIELD_NAME));
+        assertThatCode(() -> ValidatorUtils.validateString(value, FIELD_NAME))
+                .doesNotThrowAnyException();
     }
 
     @Test
     void validateObjectId_isNull() {
         Long value = null;
-        assertThrowsWithMessage(
-                ValidateException.class,
-                () -> ValidatorUtils.validateObjectId(value, FIELD_NAME),
-                "The " + FIELD_NAME + " is null.");
+        assertThatThrownBy(() -> ValidatorUtils.validateObjectId(value, FIELD_NAME))
+                .isInstanceOf(ValidateException.class)
+                .hasMessage("The " + FIELD_NAME + " is null.");
     }
 
     @Test
     void validateObjectId_isNegative() {
         Long value = -randomPositiveLong();
-        assertThrowsWithMessage(
-                ValidateException.class,
-                () -> ValidatorUtils.validateObjectId(value, FIELD_NAME),
-                "The " + FIELD_NAME + " is negative.");
+        assertThatThrownBy(() -> ValidatorUtils.validateObjectId(value, FIELD_NAME))
+                .isInstanceOf(ValidateException.class)
+                .hasMessage("The " + FIELD_NAME + " is negative.");
     }
 
     @Test
     void validateObjectId_success() {
         Long value = randomPositiveLong();
-        assertDoesNotThrow(() ->
-                ValidatorUtils.validateObjectId(value, FIELD_NAME));
+        assertThatCode(() -> ValidatorUtils.validateObjectId(value, FIELD_NAME))
+                .doesNotThrowAnyException();
     }
 }

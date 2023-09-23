@@ -1,13 +1,8 @@
 package rgo.tt.common.utils;
 
-import org.junit.jupiter.api.function.Executable;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public final class TestUtils {
 
@@ -55,10 +50,5 @@ public final class TestUtils {
     private static boolean shouldSkipField(List<String> nonEmptyFields, Field field) {
         return nonEmptyFields.contains(field.getName())
                 || Modifier.isStatic(field.getModifiers());
-    }
-
-    public static <T extends Throwable> void assertThrowsWithMessage(Class<T> expectedType, Executable executable, String errorMessage) {
-        Throwable th = assertThrows(expectedType, executable);
-        assertEquals(errorMessage, th.getMessage());
     }
 }
