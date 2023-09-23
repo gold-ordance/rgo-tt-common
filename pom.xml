@@ -24,10 +24,11 @@
         <module>rgo-tt-common-exceptions</module>
         <module>rgo-tt-common-logging</module>
         <module>rgo-tt-common-persistence</module>
+        <module>rgo-tt-common-armeria</module>
     </modules>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>17</java.version>
         <armeria.version>1.25.2</armeria.version>
         <guava.version>32.1.2-jre</guava.version>
     </properties>

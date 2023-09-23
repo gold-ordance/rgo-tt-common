@@ -1,4 +1,4 @@
-package rgo.tt.common.rest.api.utils.test;
+package rgo.tt.common.armeria.utils.test;
 
 import com.linecorp.armeria.server.Server;
 import org.slf4j.Logger;

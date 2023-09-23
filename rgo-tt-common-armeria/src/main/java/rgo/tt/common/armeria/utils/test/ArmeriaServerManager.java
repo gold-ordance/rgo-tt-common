@@ -1,4 +1,4 @@
-package rgo.tt.common.rest.api.utils.test;
+package rgo.tt.common.armeria.utils.test;
 
 public final class ArmeriaServerManager {
 

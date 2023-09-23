@@ -1,9 +1,9 @@
-package rgo.tt.common.rest.api.utils.test;
+package rgo.tt.common.armeria.utils.test;
 
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.MediaType;
 
-import static rgo.tt.common.rest.api.utils.test.ArmeriaServerManager.getHost;
+import static rgo.tt.common.armeria.utils.test.ArmeriaServerManager.getHost;
 
 public final class ArmeriaClientManager {
 
