@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import rgo.tt.common.rest.api.ErrorResponse;
 import rgo.tt.common.rest.api.Response;
 
+import static com.linecorp.armeria.common.HttpStatus.isContentAlwaysEmpty;
+
 public final class RestUtils {
 
     public static final String DIGITS_PATTERN = "[0-9]+";
@@ -32,8 +34,12 @@ public final class RestUtils {
     }
 
     public static HttpResponse mapToHttp(Response response) {
-        HttpData content = HttpData.ofUtf8(json(response));
         int httpCode = response.getStatus().getStatusCode().getHttpCode();
+        if (isContentAlwaysEmpty(httpCode)) {
+            return HttpResponse.of(httpCode);
+        }
+
+        HttpData content = HttpData.ofUtf8(json(response));
         return HttpResponse.of(HttpStatus.valueOf(httpCode), MediaType.JSON_UTF_8, content);
     }
 

@@ -36,4 +36,23 @@ public final class ArmeriaClientManager {
                 .join()
                 .contentUtf8();
     }
+
+    public static String put(String content) {
+        return CLIENT.prepare()
+                .put(getHost())
+                .content(MediaType.JSON_UTF_8, content)
+                .execute()
+                .aggregate()
+                .join()
+                .contentUtf8();
+    }
+
+    public static String delete(String url) {
+        return CLIENT.prepare()
+                .delete(getHost() + url)
+                .execute()
+                .aggregate()
+                .join()
+                .contentUtf8();
+    }
 }
