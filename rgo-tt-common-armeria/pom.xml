@@ -19,5 +19,12 @@
             <artifactId>armeria</artifactId>
         </dependency>
         <!-- armeria -->
+
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <!-- spring -->
     </dependencies>
 </project>
