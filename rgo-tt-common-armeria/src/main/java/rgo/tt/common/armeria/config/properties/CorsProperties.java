@@ -1,19 +1,13 @@
 package rgo.tt.common.armeria.config.properties;
 
 import com.linecorp.armeria.common.HttpMethod;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
 public class CorsProperties {
 
-    @Value("${cors.origins}")
     private List<String> origins;
-
-    @Value("${cors.methods}")
-    private List<HttpMethod> httpMethods;
-
-    @Value("${cors.maxAgeSeconds}")
+    private List<HttpMethod> methods;
     private long maxAgeSeconds;
 
     public List<String> getOrigins() {
@@ -24,12 +18,12 @@ public class CorsProperties {
         this.origins = origins;
     }
 
-    public List<HttpMethod> getHttpMethods() {
-        return httpMethods;
+    public List<HttpMethod> getMethods() {
+        return methods;
     }
 
-    public void setHttpMethods(List<HttpMethod> httpMethods) {
-        this.httpMethods = httpMethods;
+    public void setMethods(List<HttpMethod> methods) {
+        this.methods = methods;
     }
 
     public long getMaxAgeSeconds() {
