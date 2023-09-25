@@ -22,7 +22,6 @@
         <module>rgo-tt-common-validator</module>
         <module>rgo-tt-common-utils</module>
         <module>rgo-tt-common-exceptions</module>
-        <module>rgo-tt-common-logging</module>
         <module>rgo-tt-common-persistence</module>
         <module>rgo-tt-common-armeria</module>
     </modules>

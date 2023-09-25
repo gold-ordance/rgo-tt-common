@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rgo.tt.common.armeria.config.properties.CorsProperties;
+import rgo.tt.common.armeria.service.HeadersService;
 import rgo.tt.common.armeria.service.ProbeService;
 
 import java.util.function.Function;
@@ -26,6 +27,11 @@ public class ArmeriaCommonConfig {
                 .allowRequestMethods(properties.getMethods())
                 .maxAge(properties.getMaxAgeSeconds())
                 .newDecorator();
+    }
+
+    @Bean
+    public Function<? super HttpService, HeadersService> headersDecorator() {
+        return HeadersService::new;
     }
 
     @Bean
