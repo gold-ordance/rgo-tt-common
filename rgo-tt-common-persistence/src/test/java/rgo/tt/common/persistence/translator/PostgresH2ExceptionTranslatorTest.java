@@ -46,9 +46,11 @@ class PostgresH2ExceptionTranslatorTest {
 
     @Test
     void doTranslate_uniqueViolation() {
-        SQLException exception = new SQLException(STUB_STRING, UV_CODE);
+        String fieldName = "(email)";
+        SQLException exception = new SQLException(fieldName, UV_CODE);
         assertThatThrownBy(() -> doTranslate(exception))
-                .isInstanceOf(UniqueViolationException.class);
+                .isInstanceOf(UniqueViolationException.class)
+                .hasMessage("The email already exists.");
     }
 
     private void doTranslate(SQLException e) {
