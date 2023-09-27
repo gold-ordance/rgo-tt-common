@@ -28,8 +28,8 @@
 
     <properties>
         <java.version>17</java.version>
+
         <armeria.version>1.25.2</armeria.version>
-        <guava.version>32.1.2-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -59,14 +59,6 @@
                 <version>${armeria.version}</version>
             </dependency>
             <!-- armeria -->
-
-            <!-- utils -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-            <!-- utils -->
         </dependencies>
     </dependencyManagement>
 
