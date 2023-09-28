@@ -1,6 +1,4 @@
-package rgo.tt.common.validator;
-
-import rgo.tt.common.exceptions.BaseException;
+package rgo.tt.common.exceptions;
 
 public class ValidateException extends BaseException {
 

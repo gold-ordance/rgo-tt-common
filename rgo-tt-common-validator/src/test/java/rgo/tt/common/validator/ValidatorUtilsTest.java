@@ -1,6 +1,7 @@
 package rgo.tt.common.validator;
 
 import org.junit.jupiter.api.Test;
+import rgo.tt.common.exceptions.ValidateException;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

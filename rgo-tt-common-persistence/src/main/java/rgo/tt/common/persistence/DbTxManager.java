@@ -23,7 +23,7 @@ public class DbTxManager extends AbstractDataSource implements SmartDataSource {
     }
 
     private static BaseException exception(Exception e) {
-        if (e instanceof BaseException) return (BaseException) e;
+        if (e instanceof BaseException exception) return exception;
         return new BaseException("Tx failed.", e);
     }
 

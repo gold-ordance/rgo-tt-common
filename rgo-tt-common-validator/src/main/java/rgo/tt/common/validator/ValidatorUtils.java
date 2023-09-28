@@ -1,5 +1,7 @@
 package rgo.tt.common.validator;
 
+import rgo.tt.common.exceptions.ValidateException;
+
 public final class ValidatorUtils {
 
     private ValidatorUtils() {
