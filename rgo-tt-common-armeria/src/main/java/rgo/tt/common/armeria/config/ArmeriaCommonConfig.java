@@ -38,7 +38,7 @@ public class ArmeriaCommonConfig {
 
     @Bean
     public Function<? super HttpService, MetricCollectingService> metricsDecorator() {
-        return MetricCollectingService.builder(MeterIdPrefixFunction.ofDefault("http.service"))
+        return MetricCollectingService.builder(MeterIdPrefixFunction.ofDefault("armeria.http.service"))
                 .newDecorator();
     }
 
