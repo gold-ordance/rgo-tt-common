@@ -1,7 +1,9 @@
 package rgo.tt.common.armeria.config;
 
+import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.cors.CorsService;
+import com.linecorp.armeria.server.metric.MetricCollectingService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,12 @@ public class ArmeriaCommonConfig {
     @Bean
     public Function<? super HttpService, HeadersService> headersDecorator() {
         return HeadersService::new;
+    }
+
+    @Bean
+    public Function<? super HttpService, MetricCollectingService> metricsDecorator() {
+        return MetricCollectingService.builder(MeterIdPrefixFunction.ofDefault("http.service"))
+                .newDecorator();
     }
 
     @Bean
