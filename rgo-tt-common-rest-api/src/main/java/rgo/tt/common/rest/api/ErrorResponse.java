@@ -23,6 +23,10 @@ public class ErrorResponse implements Response {
         return new ErrorResponse(Status.error(StatusCode.INVALID_ENTITY, errorMsg));
     }
 
+    public static ErrorResponse tooManyRequests() {
+        return new ErrorResponse(Status.error(StatusCode.TOO_MANY_REQUESTS, null));
+    }
+
     public static ErrorResponse error(String errorMsg) {
         return new ErrorResponse(Status.error(StatusCode.ERROR, errorMsg));
     }

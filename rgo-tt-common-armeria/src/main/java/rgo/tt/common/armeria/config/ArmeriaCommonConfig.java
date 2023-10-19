@@ -4,12 +4,17 @@ import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.cors.CorsService;
 import com.linecorp.armeria.server.metric.MetricCollectingService;
+import com.linecorp.armeria.server.throttling.ThrottlingService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rgo.tt.common.armeria.config.properties.CorsProperties;
 import rgo.tt.common.armeria.service.HeadersService;
 import rgo.tt.common.armeria.service.ProbeService;
+import rgo.tt.common.armeria.throttling.LimitsByMethodsThrottlingStrategy;
+import rgo.tt.common.armeria.throttling.RateLimitsProperties;
+import rgo.tt.common.rest.api.ErrorResponse;
+import rgo.tt.common.rest.api.utils.RestUtils;
 
 import java.util.function.Function;
 
@@ -17,9 +22,23 @@ import java.util.function.Function;
 public class ArmeriaCommonConfig {
 
     @Bean
+    @ConfigurationProperties("rate-limiter")
+    public RateLimitsProperties rateLimitsProperties() {
+        return new RateLimitsProperties();
+    }
+
+    @Bean
     @ConfigurationProperties("cors")
     public CorsProperties corsProperties() {
         return new CorsProperties();
+    }
+
+    @Bean
+    public Function<? super HttpService, ThrottlingService> throttlingDecorator() {
+        return ThrottlingService
+                .builder(new LimitsByMethodsThrottlingStrategy(rateLimitsProperties()))
+                .onRejectedRequest((delegate, ctx, req, cause) -> RestUtils.mapToHttp(ErrorResponse.tooManyRequests()))
+                .newDecorator();
     }
 
     @Bean

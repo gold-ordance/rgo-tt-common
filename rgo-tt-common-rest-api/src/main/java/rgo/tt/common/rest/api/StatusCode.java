@@ -8,6 +8,7 @@ public enum StatusCode {
     INVALID_RQ(400),
     NOT_FOUND(404),
     INVALID_ENTITY(422),
+    TOO_MANY_REQUESTS(429),
     ERROR(500);
 
     public static void validateSuccessCode(int code) {

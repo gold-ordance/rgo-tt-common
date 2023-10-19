@@ -13,6 +13,13 @@
     <artifactId>rgo-tt-common-armeria</artifactId>
 
     <dependencies>
+        <!-- self modules -->
+        <dependency>
+            <groupId>ru.gold.ordance</groupId>
+            <artifactId>rgo-tt-common-rest-api</artifactId>
+        </dependency>
+        <!-- self modules -->
+
         <!-- armeria -->
         <dependency>
             <groupId>com.linecorp.armeria</groupId>
