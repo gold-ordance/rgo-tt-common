@@ -17,8 +17,8 @@ public class RateLimitsProperties {
                         entry -> entry.getValue()
                                 .stream()
                                 .collect(Collectors.toMap(
-                                        v -> v.method,
-                                        v -> Integer.parseInt(v.limit)
+                                        m -> m.method,
+                                        m -> Integer.parseInt(m.limit)
                                 ))
                 ));
     }
