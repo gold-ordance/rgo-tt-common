@@ -1,4 +1,4 @@
-package rgo.tt.common.armeria.service;
+package rgo.tt.common.armeria;
 
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static rgo.tt.common.armeria.service.ProbeService.failure;
-import static rgo.tt.common.armeria.service.ProbeService.ok;
+import static rgo.tt.common.armeria.ProbeService.failure;
+import static rgo.tt.common.armeria.ProbeService.ok;
 
 class ProbeServiceTest {
 

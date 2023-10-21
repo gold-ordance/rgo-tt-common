@@ -1,4 +1,4 @@
-package rgo.tt.common.armeria.utils;
+package rgo.tt.common.armeria.headers;
 
 import com.linecorp.armeria.common.logging.RequestScopedMdc;
 import com.linecorp.armeria.server.ServiceRequestContext;
@@ -6,14 +6,14 @@ import com.linecorp.armeria.server.ServiceRequestContext;
 import java.util.Set;
 import java.util.UUID;
 
-public final class MdcUtils {
+final class LoggingContextUtils {
 
-    static final Set<String> PARAMETERS = Set.of("trace.id");
+    private static final Set<String> PARAMETERS = Set.of("trace.id");
 
-    private MdcUtils() {
+    private LoggingContextUtils() {
     }
 
-    public static void processRequestContext(ServiceRequestContext ctx) {
+    static void processRequestContext(ServiceRequestContext ctx) {
         RequestScopedMdc.clear(ctx);
 
         String value = UUID.randomUUID().toString();

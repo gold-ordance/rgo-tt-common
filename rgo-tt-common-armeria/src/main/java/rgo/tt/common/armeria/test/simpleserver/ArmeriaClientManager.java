@@ -1,9 +1,7 @@
-package rgo.tt.common.armeria.utils.test;
+package rgo.tt.common.armeria.test.simpleserver;
 
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.common.MediaType;
-
-import static rgo.tt.common.armeria.utils.test.ArmeriaServerManager.getHost;
 
 public final class ArmeriaClientManager {
 
@@ -13,11 +11,11 @@ public final class ArmeriaClientManager {
     }
 
     public static String get() {
-        return internalGet(getHost());
+        return internalGet(ArmeriaServerManager.getHost());
     }
 
     public static String get(String path) {
-        return internalGet(getHost() + path);
+        return internalGet(ArmeriaServerManager.getHost() + path);
     }
 
     private static String internalGet(String url) {
@@ -29,7 +27,7 @@ public final class ArmeriaClientManager {
 
     public static String post(String content) {
         return CLIENT.prepare()
-                .post(getHost())
+                .post(ArmeriaServerManager.getHost())
                 .content(MediaType.JSON_UTF_8, content)
                 .execute()
                 .aggregate()
@@ -39,7 +37,7 @@ public final class ArmeriaClientManager {
 
     public static String put(String content) {
         return CLIENT.prepare()
-                .put(getHost())
+                .put(ArmeriaServerManager.getHost())
                 .content(MediaType.JSON_UTF_8, content)
                 .execute()
                 .aggregate()
@@ -49,7 +47,7 @@ public final class ArmeriaClientManager {
 
     public static String delete(String url) {
         return CLIENT.prepare()
-                .delete(getHost() + url)
+                .delete(ArmeriaServerManager.getHost() + url)
                 .execute()
                 .aggregate()
                 .join()

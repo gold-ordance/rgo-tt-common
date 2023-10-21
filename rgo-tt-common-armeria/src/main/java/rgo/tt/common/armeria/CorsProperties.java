@@ -1,4 +1,4 @@
-package rgo.tt.common.armeria.config.properties;
+package rgo.tt.common.armeria;
 
 import com.linecorp.armeria.common.HttpMethod;
 

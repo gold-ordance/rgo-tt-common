@@ -1,4 +1,4 @@
-package rgo.tt.common.armeria.service;
+package rgo.tt.common.armeria;
 
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
