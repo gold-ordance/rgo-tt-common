@@ -30,6 +30,7 @@
         <java.version>17</java.version>
 
         <armeria.version>1.25.2</armeria.version>
+        <jvm-extras.version>0.2.2</jvm-extras.version>
     </properties>
 
     <dependencyManagement>
@@ -37,7 +38,22 @@
             <!-- self modules -->
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-armeria</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-exceptions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-rest-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -47,7 +63,7 @@
             </dependency>
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-tt-common-rest-api</artifactId>
+                <artifactId>rgo-tt-common-validator</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- self modules -->
@@ -58,7 +74,20 @@
                 <artifactId>armeria</artifactId>
                 <version>${armeria.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.linecorp.armeria</groupId>
+                <artifactId>armeria-spring-boot3-starter</artifactId>
+                <version>${armeria.version}</version>
+            </dependency>
             <!-- armeria -->
+
+            <!-- metrics -->
+            <dependency>
+                <groupId>io.github.mweirauch</groupId>
+                <artifactId>micrometer-jvm-extras</artifactId>
+                <version>${jvm-extras.version}</version>
+            </dependency>
+            <!-- metrics -->
         </dependencies>
     </dependencyManagement>
 
