@@ -1,5 +1,6 @@
 package rgo.tt.common.persistence.sqlstatement.retry;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import rgo.tt.common.exceptions.PersistenceException;
 
 import java.util.HashSet;
@@ -15,7 +16,7 @@ public final class DbRetryManager {
 
     public <T> T execute(RetryableOperation<T> operation, OperationParameters parameters) {
         SqlRetryParameters params = policy.retryParams(parameters);
-        Set<Exception> exceptions = new HashSet<>();
+        Set<String> exceptions = new HashSet<>();
         int attempts = 0;
 
         while (attempts != params.getAttempts()) {
@@ -23,7 +24,7 @@ public final class DbRetryManager {
                 return operation.perform();
             } catch (Exception e) {
                 if (e.getClass().isAssignableFrom(params.getException())) {
-                    exceptions.add(e);
+                    exceptions.add(ExceptionUtils.getStackTrace(e));
                     attempts++;
                     continue;
                 }
