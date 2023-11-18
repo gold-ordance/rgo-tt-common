@@ -1,7 +1,10 @@
 package rgo.tt.common.persistence.sqlresult;
 
+import rgo.tt.common.exceptions.PersistenceException;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public final class SqlReadResult<T> {
 
@@ -17,6 +20,18 @@ public final class SqlReadResult<T> {
 
     public List<T> getEntities() {
         return entities;
+    }
+
+    public Optional<T> getEntity() {
+        if (entities.isEmpty()) {
+            return Optional.empty();
+        }
+
+        if (entities.size() > 1) {
+            throw new PersistenceException("The number of entities is not equal to 1.");
+        }
+
+        return Optional.of(entities.get(0));
     }
 
     @Override
