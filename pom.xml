@@ -24,12 +24,15 @@
         <module>rgo-tt-common-exceptions</module>
         <module>rgo-tt-common-persistence</module>
         <module>rgo-tt-common-armeria</module>
+        <module>rgo-tt-common-grpc</module>
     </modules>
 
     <properties>
         <java.version>17</java.version>
 
         <armeria.version>1.25.2</armeria.version>
+        <grpc.version>1.59.0</grpc.version>
+        <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <jvm-extras.version>0.2.2</jvm-extras.version>
     </properties>
 
@@ -58,6 +61,11 @@
             </dependency>
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-grpc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -76,10 +84,33 @@
             </dependency>
             <dependency>
                 <groupId>com.linecorp.armeria</groupId>
+                <artifactId>armeria-grpc</artifactId>
+                <version>${armeria.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.linecorp.armeria</groupId>
                 <artifactId>armeria-spring-boot3-starter</artifactId>
                 <version>${armeria.version}</version>
             </dependency>
             <!-- armeria -->
+
+            <!-- grpc -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <!-- grpc -->
 
             <!-- metrics -->
             <dependency>
@@ -88,6 +119,14 @@
                 <version>${jvm-extras.version}</version>
             </dependency>
             <!-- metrics -->
+
+            <!-- utils -->
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation-api.version}</version>
+            </dependency>
+            <!-- utils -->
         </dependencies>
     </dependencyManagement>
 

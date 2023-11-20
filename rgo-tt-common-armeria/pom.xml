@@ -25,6 +25,11 @@
             <groupId>com.linecorp.armeria</groupId>
             <artifactId>armeria</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.linecorp.armeria</groupId>
+            <artifactId>armeria-grpc</artifactId>
+        </dependency>
+
         <!-- armeria -->
 
         <!-- spring -->

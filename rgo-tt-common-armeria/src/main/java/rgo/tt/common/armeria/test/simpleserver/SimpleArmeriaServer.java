@@ -20,7 +20,7 @@ public final class SimpleArmeriaServer {
 
     public void start() {
         if (server != null) {
-            LOGGER.warn("Simple server already started on port {}.", port);
+            LOGGER.warn("Simple armeria server already started on port {}.", port);
             return;
         }
 
@@ -30,17 +30,17 @@ public final class SimpleArmeriaServer {
                 .build();
 
         server.start().join();
-        LOGGER.info("Simple server started on port {}.", port);
+        LOGGER.info("Simple armeria server started on port {}.", port);
     }
 
     public void stop() {
         if (this.server == null) {
-            LOGGER.warn("Simple server already stopped.");
+            LOGGER.warn("Simple armeria server already stopped.");
             return;
         }
 
         server.stop().join();
         server = null;
-        LOGGER.info("Simple server stopped.");
+        LOGGER.info("Simple armeria server stopped.");
     }
 }
