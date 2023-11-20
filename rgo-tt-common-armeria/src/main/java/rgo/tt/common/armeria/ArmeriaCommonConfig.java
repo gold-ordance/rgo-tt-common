@@ -20,13 +20,13 @@ import java.util.function.Function;
 public class ArmeriaCommonConfig {
 
     @Bean
-    @ConfigurationProperties("rate-limiter")
+    @ConfigurationProperties("app.rate-limiter")
     public RateLimitsProperties rateLimitsProperties() {
         return new RateLimitsProperties();
     }
 
     @Bean
-    @ConfigurationProperties("cors")
+    @ConfigurationProperties("app.cors")
     public CorsProperties corsProperties() {
         return new CorsProperties();
     }
