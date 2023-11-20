@@ -6,15 +6,26 @@ import java.io.IOException;
 
 public final class GrpcServerManager {
 
-    private static final int PORT = 8090;
+    private static final int DEFAULT_PORT = 9005;
+
     private static SimpleGrpcServer server;
+    private static int port;
 
     private GrpcServerManager() {
     }
 
     public static void startGrpcServer(BindableService service) throws IOException {
         if (server == null) {
-            server = new SimpleGrpcServer(PORT, service);
+            port = DEFAULT_PORT;
+            server = new SimpleGrpcServer(DEFAULT_PORT, service);
+            server.start();
+        }
+    }
+
+    public static void startGrpcServer(int port, BindableService service) throws IOException {
+        if (server == null) {
+            GrpcServerManager.port = port;
+            server = new SimpleGrpcServer(DEFAULT_PORT, service);
             server.start();
         }
     }
@@ -27,6 +38,6 @@ public final class GrpcServerManager {
     }
 
     public static int getPort() {
-        return PORT;
+        return port;
     }
 }
