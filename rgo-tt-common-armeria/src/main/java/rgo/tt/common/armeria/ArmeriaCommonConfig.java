@@ -9,10 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rgo.tt.common.armeria.headers.HeadersService;
-import rgo.tt.common.armeria.throttling.LimitsByMethodsThrottlingStrategy;
+import rgo.tt.common.armeria.throttling.GrpcThrottlingStrategy;
 import rgo.tt.common.armeria.throttling.RateLimitsProperties;
-import rgo.tt.common.rest.api.ErrorResponse;
-import rgo.tt.common.rest.api.utils.RestUtils;
+import rgo.tt.common.armeria.throttling.RestThrottlingStrategy;
+import rgo.tt.common.armeria.throttling.ThrottlingStrategyCoordinator;
 
 import java.util.function.Function;
 
@@ -32,10 +32,21 @@ public class ArmeriaCommonConfig {
     }
 
     @Bean
+    public RestThrottlingStrategy restThrottlingStrategy() {
+        return new RestThrottlingStrategy(rateLimitsProperties());
+    }
+
+    @Bean
+    public GrpcThrottlingStrategy grpcThrottlingStrategy() {
+        return new GrpcThrottlingStrategy(rateLimitsProperties());
+    }
+
+    @Bean
     public Function<? super HttpService, ThrottlingService> throttlingDecorator() {
+        ThrottlingStrategyCoordinator strategy = new ThrottlingStrategyCoordinator(restThrottlingStrategy(), grpcThrottlingStrategy());
         return ThrottlingService
-                .builder(new LimitsByMethodsThrottlingStrategy(rateLimitsProperties()))
-                .onRejectedRequest((delegate, ctx, req, cause) -> RestUtils.mapToHttp(ErrorResponse.tooManyRequests()))
+                .builder(strategy)
+                .onRejectedRequest((delegate, ctx, req, cause) -> strategy.rejectRequest(ctx))
                 .newDecorator();
     }
 

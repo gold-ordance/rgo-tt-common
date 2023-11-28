@@ -10,12 +10,12 @@ import java.util.Map;
 import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 
-public class LimitsByMethodsThrottlingStrategy extends ThrottlingStrategy<HttpRequest> {
+public class RestThrottlingStrategy extends ThrottlingStrategy<HttpRequest> {
 
     private final Map<String, Map<String, ThrottlingStrategy<HttpRequest>>> requestLimits = new HashMap<>();
 
-    public LimitsByMethodsThrottlingStrategy(RateLimitsProperties properties) {
-        properties.getServicesMap()
+    public RestThrottlingStrategy(RateLimitsProperties properties) {
+        properties.getRestServicesMap()
                 .forEach((serviceName, methods) ->
                         requestLimits.put(serviceName, getThrottlingLimits(methods)));
     }
@@ -26,7 +26,7 @@ public class LimitsByMethodsThrottlingStrategy extends ThrottlingStrategy<HttpRe
                 .stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        LimitsByMethodsThrottlingStrategy::createThrottlingStrategy
+                        RestThrottlingStrategy::createThrottlingStrategy
                 ));
     }
 

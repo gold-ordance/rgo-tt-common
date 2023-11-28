@@ -6,10 +6,13 @@ import java.util.stream.Collectors;
 
 public class RateLimitsProperties {
 
-    private Map<String, List<MethodLimit>> services;
+    private Map<String, List<MethodLimit>> restServices;
+    private List<MethodLimit> grpcServices;
 
-    public Map<String, Map<String, Integer>> getServicesMap() {
-        return services
+    public Map<String, Map<String, Integer>> getRestServicesMap() {
+        return restServices == null
+                ? Map.of()
+                : restServices
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(
@@ -18,23 +21,39 @@ public class RateLimitsProperties {
                                 .stream()
                                 .collect(Collectors.toMap(
                                         m -> m.method,
-                                        m -> Integer.parseInt(m.limit)
+                                        m -> m.limit
                                 ))
                 ));
     }
 
-    public Map<String, List<MethodLimit>> getServices() {
-        return services;
+    public Map<String, List<MethodLimit>> getRestServices() {
+        return restServices;
     }
 
-    public void setServices(Map<String, List<MethodLimit>> services) {
-        this.services = services;
+    public void setRestServices(Map<String, List<MethodLimit>> restServices) {
+        this.restServices = restServices;
+    }
+
+    public Map<String, Integer> getGrcpServicesMap() {
+        return grpcServices == null
+                ? Map.of()
+                : grpcServices
+                .stream()
+                .collect(Collectors.toMap(m -> m.method, m -> m.limit));
+    }
+
+    public List<MethodLimit> getGrpcServices() {
+        return grpcServices;
+    }
+
+    public void setGrpcServices(List<MethodLimit> grpcServices) {
+        this.grpcServices = grpcServices;
     }
 
     public static class MethodLimit {
 
         private String method;
-        private String limit;
+        private Integer limit;
 
         public String getMethod() {
             return method;
@@ -44,11 +63,11 @@ public class RateLimitsProperties {
             this.method = method;
         }
 
-        public String getLimit() {
+        public Integer getLimit() {
             return limit;
         }
 
-        public void setLimit(String limit) {
+        public void setLimit(Integer limit) {
             this.limit = limit;
         }
     }
