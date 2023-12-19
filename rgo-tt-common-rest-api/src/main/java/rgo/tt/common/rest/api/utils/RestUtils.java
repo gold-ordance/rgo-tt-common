@@ -8,16 +8,12 @@ import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import rgo.tt.common.rest.api.ErrorResponse;
 import rgo.tt.common.rest.api.Response;
 
 import static com.linecorp.armeria.common.HttpStatus.isContentAlwaysEmpty;
 
 public final class RestUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestUtils.class);
     private static final ObjectMapper OM = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -26,8 +22,6 @@ public final class RestUtils {
     }
 
     public static HttpResponse mapToHttp(Response response) {
-        logResponse(response);
-
         int httpCode = response.getStatus().getStatusCode().getHttpCode();
         if (isContentAlwaysEmpty(httpCode)) {
             return HttpResponse.of(httpCode);
@@ -35,11 +29,6 @@ public final class RestUtils {
 
         HttpData content = HttpData.ofUtf8(json(response));
         return HttpResponse.of(HttpStatus.valueOf(httpCode), MediaType.JSON_UTF_8, content);
-    }
-
-    private static void logResponse(Response response) {
-        if (response instanceof ErrorResponse) LOGGER.error("Response: {}", response);
-        else LOGGER.info("Response: {}", response);
     }
 
     public static String json(Object object) {
