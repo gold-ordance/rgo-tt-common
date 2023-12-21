@@ -1,8 +1,11 @@
 package rgo.tt.common.armeria;
 
+import com.linecorp.armeria.common.logging.LogLevel;
 import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
+import com.linecorp.armeria.server.DecoratingHttpServiceFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.cors.CorsService;
+import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.server.metric.MetricCollectingService;
 import com.linecorp.armeria.server.throttling.ThrottlingService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,6 +18,8 @@ import rgo.tt.common.armeria.throttling.RestThrottlingStrategy;
 import rgo.tt.common.armeria.throttling.ThrottlingStrategyCoordinator;
 
 import java.util.function.Function;
+
+import static rgo.tt.common.armeria.ProbeService.READINESS_PATH;
 
 @Configuration
 public class ArmeriaCommonConfig {
@@ -68,6 +73,22 @@ public class ArmeriaCommonConfig {
     public Function<? super HttpService, MetricCollectingService> metricsDecorator() {
         return MetricCollectingService.builder(MeterIdPrefixFunction.ofDefault("armeria.http.service"))
                 .newDecorator();
+    }
+
+    @Bean
+    public DecoratingHttpServiceFunction loggingDecorator() {
+        return (delegate, ctx, req) -> {
+            if (req.path().contains(READINESS_PATH)) {
+                return delegate.serve(ctx, req);
+            } else {
+                return LoggingService.builder()
+                        .requestLogLevel(LogLevel.INFO)
+                        .successfulResponseLogLevel(LogLevel.INFO)
+                        .failureResponseLogLevel(LogLevel.WARN)
+                        .build(delegate)
+                        .serve(ctx, req);
+            }
+        };
     }
 
     @Bean

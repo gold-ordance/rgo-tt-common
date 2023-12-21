@@ -11,6 +11,8 @@ import org.springframework.context.event.EventListener;
 
 public class ProbeService {
 
+    public static final String READINESS_PATH = "/readiness";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ProbeService.class);
 
     private volatile boolean ready;
@@ -28,7 +30,7 @@ public class ProbeService {
         return ok();
     }
 
-    @Get("/readiness")
+    @Get(READINESS_PATH)
     public HttpResponse readinessProbe() {
         return ready ? ok() : failure();
     }
