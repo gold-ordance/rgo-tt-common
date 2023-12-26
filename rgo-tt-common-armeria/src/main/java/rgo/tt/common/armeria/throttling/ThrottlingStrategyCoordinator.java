@@ -1,8 +1,10 @@
 package rgo.tt.common.armeria.throttling;
 
+import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpRequest;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.MediaType;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.throttling.ThrottlingStrategy;
 import rgo.tt.common.rest.api.ErrorResponse;
@@ -32,7 +34,7 @@ public class ThrottlingStrategyCoordinator extends ThrottlingStrategy<HttpReques
 
     public HttpResponse rejectRequest(ServiceRequestContext ctx) {
         return isGrpcRequest(ctx)
-                ? HttpResponse.of(HttpStatus.TOO_MANY_REQUESTS)
+                ? HttpResponse.of(HttpStatus.TOO_MANY_REQUESTS, MediaType.create("application", "grpc+proto"), HttpData.empty())
                 : RestUtils.mapToHttp(ErrorResponse.tooManyRequests());
     }
 
