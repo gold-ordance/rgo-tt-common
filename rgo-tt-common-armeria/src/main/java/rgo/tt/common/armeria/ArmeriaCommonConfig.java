@@ -1,6 +1,8 @@
 package rgo.tt.common.armeria;
 
+import com.linecorp.armeria.common.logging.LogFormatter;
 import com.linecorp.armeria.common.logging.LogLevel;
+import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
 import com.linecorp.armeria.server.DecoratingHttpServiceFunction;
 import com.linecorp.armeria.server.HttpService;
@@ -82,9 +84,13 @@ public class ArmeriaCommonConfig {
                 return delegate.serve(ctx, req);
             } else {
                 return LoggingService.builder()
-                        .requestLogLevel(LogLevel.INFO)
-                        .successfulResponseLogLevel(LogLevel.INFO)
-                        .failureResponseLogLevel(LogLevel.WARN)
+                        .logWriter(LogWriter.builder()
+                                .logger(ApplicationLogger.LOGGER)
+                                .logFormatter(LogFormatter.ofText())
+                                .responseCauseFilter(throwable -> false)
+                                .requestLogLevel(LogLevel.INFO)
+                                .responseLogLevelMapper(log -> log.responseCause() == null && log.responseStatus().isSuccess() ? LogLevel.INFO : LogLevel.ERROR)
+                                .build())
                         .build(delegate)
                         .serve(ctx, req);
             }
