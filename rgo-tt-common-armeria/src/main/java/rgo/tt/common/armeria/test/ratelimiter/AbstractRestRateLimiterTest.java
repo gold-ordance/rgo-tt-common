@@ -6,13 +6,13 @@ import rgo.tt.common.rest.api.StatusCode;
 import java.util.function.IntSupplier;
 import java.util.stream.IntStream;
 
-public abstract class AbstractRateLimiterTest {
+public abstract class AbstractRestRateLimiterTest {
 
     private static final int NUMBER_OF_RETRY_REQUESTS = 10;
 
     private final WebClient client;
 
-    protected AbstractRateLimiterTest(int port) {
+    protected AbstractRestRateLimiterTest(int port) {
         String host = "http://127.0.0.1:" + port;
         client = WebClient.of(host);
     }
