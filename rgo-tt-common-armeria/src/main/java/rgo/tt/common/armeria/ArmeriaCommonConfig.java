@@ -1,27 +1,21 @@
 package rgo.tt.common.armeria;
 
-import com.linecorp.armeria.common.logging.LogFormatter;
-import com.linecorp.armeria.common.logging.LogLevel;
-import com.linecorp.armeria.common.logging.LogWriter;
 import com.linecorp.armeria.common.metric.MeterIdPrefixFunction;
-import com.linecorp.armeria.server.DecoratingHttpServiceFunction;
 import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.cors.CorsService;
-import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.server.metric.MetricCollectingService;
 import com.linecorp.armeria.server.throttling.ThrottlingService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rgo.tt.common.armeria.headers.HeadersService;
+import rgo.tt.common.armeria.logger.LoggingDecorator;
 import rgo.tt.common.armeria.throttling.GrpcThrottlingStrategy;
 import rgo.tt.common.armeria.throttling.RateLimitsProperties;
 import rgo.tt.common.armeria.throttling.RestThrottlingStrategy;
 import rgo.tt.common.armeria.throttling.ThrottlingStrategyCoordinator;
 
 import java.util.function.Function;
-
-import static rgo.tt.common.armeria.ProbeService.READINESS_PATH;
 
 @Configuration
 public class ArmeriaCommonConfig {
@@ -78,23 +72,8 @@ public class ArmeriaCommonConfig {
     }
 
     @Bean
-    public DecoratingHttpServiceFunction loggingDecorator() {
-        return (delegate, ctx, req) -> {
-            if (req.path().contains(READINESS_PATH)) {
-                return delegate.serve(ctx, req);
-            } else {
-                return LoggingService.builder()
-                        .logWriter(LogWriter.builder()
-                                .logger(ApplicationLogger.LOGGER)
-                                .logFormatter(LogFormatter.ofText())
-                                .responseCauseFilter(throwable -> false)
-                                .requestLogLevel(LogLevel.INFO)
-                                .responseLogLevelMapper(log -> log.responseCause() == null && log.responseStatus().isSuccess() ? LogLevel.INFO : LogLevel.ERROR)
-                                .build())
-                        .build(delegate)
-                        .serve(ctx, req);
-            }
-        };
+    public Function<? super HttpService, LoggingDecorator> loggingDecorator() {
+        return LoggingDecorator::new;
     }
 
     @Bean
