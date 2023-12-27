@@ -7,9 +7,9 @@ import com.linecorp.armeria.server.HttpService;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.SimpleDecoratingHttpService;
 
-public class HeadersService extends SimpleDecoratingHttpService {
+public class HeadersDecorator extends SimpleDecoratingHttpService {
 
-    public HeadersService(HttpService delegate) {
+    public HeadersDecorator(HttpService delegate) {
         super(delegate);
     }
 

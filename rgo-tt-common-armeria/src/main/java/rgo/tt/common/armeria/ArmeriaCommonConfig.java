@@ -8,7 +8,7 @@ import com.linecorp.armeria.server.throttling.ThrottlingService;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import rgo.tt.common.armeria.headers.HeadersService;
+import rgo.tt.common.armeria.headers.HeadersDecorator;
 import rgo.tt.common.armeria.logger.LoggingDecorator;
 import rgo.tt.common.armeria.throttling.GrpcThrottlingStrategy;
 import rgo.tt.common.armeria.throttling.RateLimitsProperties;
@@ -61,8 +61,8 @@ public class ArmeriaCommonConfig {
     }
 
     @Bean
-    public Function<? super HttpService, HeadersService> headersDecorator() {
-        return HeadersService::new;
+    public Function<? super HttpService, HeadersDecorator> headersDecorator() {
+        return HeadersDecorator::new;
     }
 
     @Bean
