@@ -18,6 +18,10 @@
             <groupId>ru.gold.ordance</groupId>
             <artifactId>rgo-tt-common-rest-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ru.gold.ordance</groupId>
+            <artifactId>rgo-tt-common-metrics</artifactId>
+        </dependency>
         <!-- self modules -->
 
         <!-- armeria -->

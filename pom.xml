@@ -25,6 +25,7 @@
         <module>rgo-tt-common-persistence</module>
         <module>rgo-tt-common-armeria</module>
         <module>rgo-tt-common-grpc</module>
+        <module>rgo-tt-common-metrics</module>
     </modules>
 
     <properties>
@@ -72,6 +73,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-validator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-metrics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- self modules -->
