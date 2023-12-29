@@ -23,7 +23,7 @@
         <module>rgo-tt-common-utils</module>
         <module>rgo-tt-common-exceptions</module>
         <module>rgo-tt-common-persistence</module>
-        <module>rgo-tt-common-grpc</module>
+        <module>rgo-tt-common-grpc-test</module>
         <module>rgo-tt-common-armeria-headers</module>
         <module>rgo-tt-common-armeria-logger</module>
         <module>rgo-tt-common-armeria-throttling</module>
@@ -91,7 +91,7 @@
             </dependency>
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-tt-common-grpc</artifactId>
+                <artifactId>rgo-tt-common-grpc-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
