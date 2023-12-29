@@ -10,13 +10,13 @@ import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
 import rgo.tt.common.rest.api.Response;
 
-public final class RestUtils {
+public final class HttpDataProcessor {
 
     private static final ObjectMapper OM = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-    private RestUtils() {
+    private HttpDataProcessor() {
     }
 
     public static HttpResponse mapToHttp(Response response) {
