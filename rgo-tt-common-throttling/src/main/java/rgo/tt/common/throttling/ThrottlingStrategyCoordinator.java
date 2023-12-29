@@ -7,8 +7,8 @@ import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
 import com.linecorp.armeria.server.ServiceRequestContext;
 import com.linecorp.armeria.server.throttling.ThrottlingStrategy;
+import rgo.tt.common.armeria.rest.RestUtils;
 import rgo.tt.common.rest.api.ErrorResponse;
-import rgo.tt.common.rest.api.utils.RestUtils;
 
 import java.util.concurrent.CompletionStage;
 

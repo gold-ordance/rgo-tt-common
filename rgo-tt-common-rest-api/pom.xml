@@ -13,13 +13,6 @@
     <artifactId>rgo-tt-common-rest-api</artifactId>
 
     <dependencies>
-        <!-- armeria -->
-        <dependency>
-            <groupId>com.linecorp.armeria</groupId>
-            <artifactId>armeria</artifactId>
-        </dependency>
-        <!-- armeria -->
-
         <!-- utils -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

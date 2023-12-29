@@ -1,4 +1,4 @@
-package rgo.tt.common.rest.api.utils;
+package rgo.tt.common.armeria.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -9,8 +9,6 @@ import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.HttpStatus;
 import com.linecorp.armeria.common.MediaType;
 import rgo.tt.common.rest.api.Response;
-
-import static com.linecorp.armeria.common.HttpStatus.isContentAlwaysEmpty;
 
 public final class RestUtils {
 
@@ -23,7 +21,7 @@ public final class RestUtils {
 
     public static HttpResponse mapToHttp(Response response) {
         int httpCode = response.getStatus().getStatusCode().getHttpCode();
-        if (isContentAlwaysEmpty(httpCode)) {
+        if (HttpStatus.isContentAlwaysEmpty(httpCode)) {
             return HttpResponse.of(httpCode);
         }
 

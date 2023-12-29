@@ -29,6 +29,7 @@
         <module>rgo-tt-common-throttling</module>
         <module>rgo-tt-common-armeria-spring-starter</module>
         <module>rgo-tt-common-armeria-test</module>
+        <module>rgo-tt-common-armeria-rest</module>
     </modules>
 
     <properties>
@@ -46,6 +47,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-armeria-spring-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-armeria-rest</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
