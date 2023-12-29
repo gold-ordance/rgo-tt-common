@@ -12,12 +12,4 @@
 
     <artifactId>rgo-tt-common-rest-api</artifactId>
 
-    <dependencies>
-        <!-- utils -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <!-- utils -->
-    </dependencies>
 </project>
