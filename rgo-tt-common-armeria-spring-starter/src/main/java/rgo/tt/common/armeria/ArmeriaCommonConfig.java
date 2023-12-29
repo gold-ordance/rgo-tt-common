@@ -9,12 +9,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import rgo.tt.common.headers.HeadersDecorator;
-import rgo.tt.common.logger.LoggingDecorator;
-import rgo.tt.common.throttling.GrpcThrottlingStrategy;
-import rgo.tt.common.throttling.RateLimitsProperties;
-import rgo.tt.common.throttling.RestThrottlingStrategy;
-import rgo.tt.common.throttling.ThrottlingStrategyCoordinator;
+import rgo.tt.common.armeria.headers.HeadersDecorator;
+import rgo.tt.common.armeria.logger.LoggingDecorator;
+import rgo.tt.common.armeria.throttling.GrpcThrottlingStrategy;
+import rgo.tt.common.armeria.throttling.RateLimitsProperties;
+import rgo.tt.common.armeria.throttling.RestThrottlingStrategy;
+import rgo.tt.common.armeria.throttling.ThrottlingStrategyCoordinator;
 
 import java.util.function.Function;
 

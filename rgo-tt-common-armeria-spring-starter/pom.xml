@@ -16,15 +16,15 @@
         <!-- self modules -->
         <dependency>
             <groupId>ru.gold.ordance</groupId>
-            <artifactId>rgo-tt-common-headers</artifactId>
+            <artifactId>rgo-tt-common-armeria-headers</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.gold.ordance</groupId>
-            <artifactId>rgo-tt-common-logger</artifactId>
+            <artifactId>rgo-tt-common-armeria-logger</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.gold.ordance</groupId>
-            <artifactId>rgo-tt-common-throttling</artifactId>
+            <artifactId>rgo-tt-common-armeria-throttling</artifactId>
         </dependency>
         <!-- self modules -->
 

@@ -24,9 +24,9 @@
         <module>rgo-tt-common-exceptions</module>
         <module>rgo-tt-common-persistence</module>
         <module>rgo-tt-common-grpc</module>
-        <module>rgo-tt-common-headers</module>
-        <module>rgo-tt-common-logger</module>
-        <module>rgo-tt-common-throttling</module>
+        <module>rgo-tt-common-armeria-headers</module>
+        <module>rgo-tt-common-armeria-logger</module>
+        <module>rgo-tt-common-armeria-throttling</module>
         <module>rgo-tt-common-armeria-spring-starter</module>
         <module>rgo-tt-common-armeria-test</module>
         <module>rgo-tt-common-armeria-rest</module>
@@ -61,6 +61,21 @@
             </dependency>
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-armeria-headers</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-armeria-logger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>rgo-tt-common-armeria-throttling</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-exceptions</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -87,21 +102,6 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>rgo-tt-common-validator</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-tt-common-headers</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-tt-common-logger</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>rgo-tt-common-throttling</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- self modules -->
